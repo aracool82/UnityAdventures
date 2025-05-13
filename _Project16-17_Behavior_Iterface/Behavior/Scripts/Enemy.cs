@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Project16_17.Scripts
@@ -6,15 +5,15 @@ namespace _Project16_17.Scripts
     [RequireComponent(typeof(AggressionDetector))]
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] private State _state;
-        [SerializeField] private Rest _rest;
-        [SerializeField] private Reaction _reaction;
-        
+        private Stats stats;
+        private Rests rests;
+        private Reactions reactions;
+
         [SerializeField] private ParticleSystem _deadEffectPrefab;
         private IBehavior _behavior;
         private AggressionDetector _aggressionDetector;
 
-        public void Initialize(Transform characterTransform,ParticleSystem deadEffectPrefab)
+        public void Initialize(Transform characterTransform, ParticleSystem deadEffectPrefab)
         {
             float distance = 4;
             _aggressionDetector = GetComponent<AggressionDetector>();
@@ -24,18 +23,17 @@ namespace _Project16_17.Scripts
 
             _aggressionDetector.Initialize(characterTransform, transform, distance);
 
-            _state = State.AtRest;
-            
-            ParticleSystem deadEffect = Instantiate(deadEffectPrefab,transform);
+            stats = Stats.AtRest;
+
+            ParticleSystem deadEffect = Instantiate(deadEffectPrefab, transform);
             _behavior = new Dead(gameObject, deadEffect);
         }
 
         private void Update()
         {
-            _behavior.Update();
-            _state = _aggressionDetector.IsDecected ? State.Reaction : State.AtRest;
-            
-            if(_state == State.AtRest)
+            stats = _aggressionDetector.IsDecected ? Stats.Reaction : Stats.AtRest;
+
+            if (stats == Stats.AtRest)
                 _behavior.DoAction();
         }
     }

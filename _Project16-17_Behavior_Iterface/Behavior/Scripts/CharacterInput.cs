@@ -2,14 +2,17 @@
 
 namespace _Project16_17.Scripts
 {
-    public class UserInput : MonoBehaviour
+    public class CharacterInput : IUpdateble
     {
-        [SerializeField] private Character _character;
-        
         private const string HorizontalAxis = "Horizontal";
         private const string VerticalAxis = "Vertical";
+        
+        private IMoveble _character;
 
-        private void Update()
+        public CharacterInput(IMoveble character)
+            =>_character = character;
+
+        public void Update()
         {
             float moveX = Input.GetAxisRaw(HorizontalAxis);
             float moveZ = Input.GetAxisRaw(VerticalAxis);

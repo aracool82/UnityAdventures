@@ -2,36 +2,36 @@
 
 namespace _Project16_17.Scripts
 {
-    public class Dead : IBehavior
+    public class Dead : IBehavior, IUpdateble
     {
         private ParticleSystem _deadEffect;
         private GameObject _gameObject;
         private float _timer;
-        private bool _isTrarted;
-        
+        private bool _isUpdated;
+
         public Dead(GameObject gameObject, ParticleSystem deadEffect)
         {
             _deadEffect = deadEffect;
             _gameObject = gameObject;
-            _isTrarted = false;
+            _isUpdated = false;
             _timer = 0.05f;
         }
 
         public void Update()
         {
-            if (_isTrarted == false)
+            if (_isUpdated == false)
                 return;
-            
+
             _timer -= Time.deltaTime;
-            
-            if(_timer <= 0)
+
+            if (_timer <= 0)
                 DestroyObject();
         }
 
         public void DoAction()
         {
             PlayEffect();
-            _isTrarted = true;
+            _isUpdated = true;
         }
 
         private void DestroyObject()

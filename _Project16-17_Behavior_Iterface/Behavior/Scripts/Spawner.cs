@@ -14,7 +14,7 @@ namespace _Project16_17.Scripts
         private void Awake()
         {
             _points = GetPoints();
-            SpawnEnemy();
+           // SpawnEnemy();
         }
 
         private void SpawnEnemy()
