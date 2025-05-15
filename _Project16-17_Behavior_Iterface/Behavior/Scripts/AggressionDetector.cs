@@ -2,23 +2,28 @@ using UnityEngine;
 
 namespace _Project16_17.Scripts
 {
-    public class AggressionDetector : MonoBehaviour
+    public class AggressionDetector
     {
-        private Transform _targetPosition;
-        private Transform _sourcePosition;
-        private float _aggressionDistance;
-
-        public void Initialize(Transform target, Transform source, float aggressionDistance)
+        private const float AggressionDistance = 3f;
+        private Transform _source;
+        private Transform _target;
+        
+        public AggressionDetector(Transform target, Transform source)
         {
-            _targetPosition = target;
-            _sourcePosition = source;
-            _aggressionDistance = aggressionDistance;
+            _target = target;
+            _source = source;
         }
 
-        public bool IsDecected 
-            => GetDistance() <= _aggressionDistance;
+        public float TargetDistance => GetDistance();
+        public bool IsDecected => GetDistance() <= AggressionDistance;
+
+        public void Update(Transform target, Transform source)
+        {
+            _target = target;
+            _source = source;
+        }
 
         private float GetDistance()
-            => (_targetPosition.position - _sourcePosition.position).magnitude;
+            => Vector3.Distance(_source.position, _target.position);
     }
 }

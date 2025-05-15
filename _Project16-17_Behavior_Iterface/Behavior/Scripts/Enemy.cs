@@ -2,39 +2,84 @@ using UnityEngine;
 
 namespace _Project16_17.Scripts
 {
-    [RequireComponent(typeof(AggressionDetector))]
     public class Enemy : MonoBehaviour
     {
-        private Stats stats;
-        private Rests rests;
-        private Reactions reactions;
+        [SerializeField] private Stats stats;
+        [SerializeField] private float _targetDistance;
 
-        [SerializeField] private ParticleSystem _deadEffectPrefab;
-        private IBehavior _behavior;
         private AggressionDetector _aggressionDetector;
 
-        public void Initialize(Transform characterTransform, ParticleSystem deadEffectPrefab)
+        private IBehavior _behaviorRest;
+        private IBehavior _behaviorReaction;
+
+        public bool _enabled;
+
+        private Transform _target;
+
+        public void Initialize(Transform target)
         {
-            float distance = 4;
-            _aggressionDetector = GetComponent<AggressionDetector>();
-
-            if (_aggressionDetector == null)
-                Debug.LogError("Aggression Detector Component is missing");
-
-            _aggressionDetector.Initialize(characterTransform, transform, distance);
-
-            stats = Stats.AtRest;
-
-            ParticleSystem deadEffect = Instantiate(deadEffectPrefab, transform);
-            _behavior = new Dead(gameObject, deadEffect);
+            _target = target;
+            _aggressionDetector = new AggressionDetector(target, transform);
         }
 
         private void Update()
         {
+            _enabled = _behaviorReaction.IsEnabled;
+            _targetDistance = Vector3.Distance(transform.position, _target.position);
+            _aggressionDetector.Update(_target, transform);
+
             stats = _aggressionDetector.IsDecected ? Stats.Reaction : Stats.AtRest;
 
             if (stats == Stats.AtRest)
-                _behavior.DoAction();
+            {
+                if (_behaviorRest.IsEnabled)
+                {
+                    _behaviorRest.DoAction();
+                    _behaviorRest.Update();
+                }
+            }
+            else if (stats == Stats.Reaction)
+            {
+                _behaviorReaction.DoAction();
+                
+                if (_behaviorReaction.IsEnabled)
+                    _behaviorReaction.Update();
+            }
+        }
+
+        // public void SetParticlEffect(ParticleSystem effect)
+        // {
+        //     if (effect == null)
+        //         Debug.Log("Null particle system");
+        //
+        //     if (_behaviorReaction is ReactionBehaviorDead)
+        //     {
+        //         _deadEffect = Instantiate(effect, transform);
+        //         Debug.Log("Создали" +_deadEffect.name);
+        //     }
+        // }
+
+        public void SetBehaviorsRest(IBehavior behaviorRest)
+        {
+            if (IsValidBehavior(behaviorRest))
+                _behaviorRest = behaviorRest;
+        }
+
+        public void SetBehaviorsReaction(IBehavior behaviorReaction)
+        {
+            if (IsValidBehavior(behaviorReaction))
+                _behaviorReaction = behaviorReaction;
+        }
+
+        private bool IsValidBehavior(IBehavior behavior)
+        {
+            if (behavior == null)
+            {
+                Debug.LogError("Behavior is null");
+                return false;
+            }
+
+            return true;
         }
     }
 }

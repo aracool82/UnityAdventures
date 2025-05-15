@@ -2,30 +2,31 @@ using UnityEngine;
 
 namespace _Project16_17.Scripts
 {
-    public class Mover : IUpdateble
+    public class Mover 
     {
         private float _minDistanceToTarget;
         private Transform _source;
 
         private Transform _target;
         private bool _canMoveToTarget;
-
-        public float Speed { get; private set; }
-
+        
         public Mover(Transform source, float speed, float minDistanceToTarget = 0.5f)
         {
             _source = source;
 
-            if (IsLessZeroFloat(speed) )
+            if (IsValidFloat(speed) == false)
                 speed = 0;
 
-            if (IsLessZeroFloat(minDistanceToTarget))
+            if (IsValidFloat(minDistanceToTarget) == false)
                 minDistanceToTarget = 0.5f;
 
             Speed = speed;
             _minDistanceToTarget = minDistanceToTarget;
             _canMoveToTarget = false;
         }
+        
+        public float Speed { get; private set; }
+        public bool IsTargetReached {get; private set; }
 
         public void Update()
         {
@@ -33,9 +34,15 @@ namespace _Project16_17.Scripts
                 return;
 
             if (IsReachedTarget(_target.position) == false)
+            {
                 MoveToDirection(GetDirection(_target.position));
+                IsTargetReached = false;
+            }
             else
+            {
+                IsTargetReached = true;
                 _canMoveToTarget = false;
+            }
         }
 
         public void MoveToDirection(Vector3 direction)
@@ -58,7 +65,7 @@ namespace _Project16_17.Scripts
 
         public void SetSpeed(float speed)
         {
-            if (IsLessZeroFloat(speed) == false)
+            if (IsValidFloat(speed))
                 Speed = speed;
             else
                 Debug.LogError("Speed can't be less than 0");
@@ -70,7 +77,7 @@ namespace _Project16_17.Scripts
         private Vector3 GetDirection(Vector3 target)
             => (target - _source.position).normalized;
 
-        private bool IsLessZeroFloat(float value)
-            => value < 0;
+        private bool IsValidFloat(float value)
+            => value >= 0;
     }
 }

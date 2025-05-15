@@ -2,7 +2,7 @@
 
 namespace _Project16_17.Scripts
 {
-    public class CharacterInput : IUpdateble
+    public class CharacterInput  
     {
         private const string HorizontalAxis = "Horizontal";
         private const string VerticalAxis = "Vertical";
@@ -14,12 +14,10 @@ namespace _Project16_17.Scripts
 
         public void Update()
         {
-            float moveX = Input.GetAxisRaw(HorizontalAxis);
-            float moveZ = Input.GetAxisRaw(VerticalAxis);
-            Vector3 direction = new Vector3(moveX, 0, moveZ).normalized;
+            Vector3 directionXZ = new Vector3(Input.GetAxisRaw(HorizontalAxis), 0, Input.GetAxisRaw(VerticalAxis)).normalized;
 
-            if (direction != Vector3.zero)
-                _character.Move(direction);
+            if (directionXZ != Vector3.zero)
+                _character.Move(directionXZ);
         }
     }
 }

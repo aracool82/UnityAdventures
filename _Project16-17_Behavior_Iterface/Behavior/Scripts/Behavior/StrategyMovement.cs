@@ -1,13 +1,13 @@
-using System;
+
 using UnityEngine;
 
 namespace _Project16_17.Scripts
 {
-    public class StrategyMovement : MonoBehaviour
+    public class StrategyMovement 
     {
         private IBehavior _behavior;
-
-        public void Initialise(IBehavior behavior)
+        
+        public StrategyMovement(IBehavior behavior)
         {
             _behavior = behavior;
         }

@@ -1,7 +1,8 @@
 namespace _Project16_17.Scripts
 {
-    public interface IBehavior
+    public interface IBehavior : IUpdateble
     {
+        public bool IsEnabled { get; }
         public void DoAction();
     }
 }

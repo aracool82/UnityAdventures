@@ -2,8 +2,8 @@
 {
     public enum Reactions
     {
-        Follow = 0,
-        Aggression,
+        FollowToTarget = 0,
+        RunAway,
         Dead
     }
 }
