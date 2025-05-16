@@ -17,7 +17,6 @@ namespace _Project16_17.Scripts
                 Debug.LogError("Points cannot be null");
             else
             {
-                float speed = 3f;
                 _points = points;
                 _source = source;
                 _mover = new ToTargetMover(source);
@@ -26,6 +25,7 @@ namespace _Project16_17.Scripts
             }
         }
 
+        public Behaviors Movement => Behaviors.Patroll;
         public bool IsEnabled { get; private set; }
 
         // public Vector3 GetNextPoint()

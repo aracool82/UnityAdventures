@@ -7,18 +7,17 @@ namespace _Project16_17.Scripts
         private ParticleSystem _deadEffect;
         private GameObject _source;
         private float _destroyTime;
-        private bool _isUpdated;
-
-        public bool IsEnabled { get; private set; }
 
         public ReactionBehaviorDead(GameObject source, ParticleSystem deadEffect)
         {
             _source = source;
             _deadEffect = deadEffect;
-            _isUpdated = false;
             _destroyTime = 0.1f;
             IsEnabled = true;
         }
+        
+        public Behaviors Movement => Behaviors.Dead;
+        public bool IsEnabled { get; private set; }
 
         public void Update()
         {

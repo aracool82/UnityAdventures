@@ -6,9 +6,12 @@ namespace _Project16_17.Scripts
     {
         private Transform _source;
         private Transform _target;
+       
         private Mover _mover;
+        
         private Vector3 _directionMove;
-
+        public Reactions _reaction => Reactions.RunAway;
+        
         public ReactionBehaviorRunAway(Transform source, Transform target)
         {
             float speed = 3.0f;
@@ -17,6 +20,7 @@ namespace _Project16_17.Scripts
             _mover = new Mover(source, speed);
         }
 
+        public Behaviors Movement => Behaviors.RunAway;
         public bool IsEnabled { get; private set; }
 
         public void Update()
@@ -25,7 +29,7 @@ namespace _Project16_17.Scripts
                 return;
 
             _mover.MoveToDirection(_directionMove);
-            _mover.Update();
+            //_mover.Update();
         }
 
         public void DoAction()

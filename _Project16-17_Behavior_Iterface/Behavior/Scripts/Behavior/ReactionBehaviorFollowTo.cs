@@ -8,6 +8,8 @@ namespace _Project16_17.Scripts
         private Transform _source;    
         private ToTargetMover _mover;
         
+        private Reactions Reaction => Reactions.FollowToTarget;
+        
         public ReactionBehaviorFollowTo(Transform source, Transform target)
         {
             _target = target;
@@ -15,6 +17,7 @@ namespace _Project16_17.Scripts
             IsEnabled = false;
         }
 
+        public Behaviors Movement => Behaviors.FollowToTarget;
         public bool IsEnabled { get;private set; }
      
         public void Update()

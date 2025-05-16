@@ -27,6 +27,7 @@ namespace _Project16_17.Scripts
             _direction = _directions[0];
         }
 
+        public Behaviors Movement => Behaviors.RandomDirectionMove;
         public bool IsEnabled { get;private set; }
         
         public void Update()

@@ -12,19 +12,22 @@ namespace _Project16_17.Scripts
         private IBehavior _behaviorRest;
         private IBehavior _behaviorReaction;
 
-        public bool _enabled;
-
         private Transform _target;
 
-        public void Initialize(Transform target)
+        private Reactions _reaction;
+        private Rests _rest;
+        
+        public void Initialize(Transform target,Reactions reaction,Rests rest)
         {
+            _reaction = reaction;
+            _rest = rest;
+            
             _target = target;
             _aggressionDetector = new AggressionDetector(target, transform);
         }
 
         private void Update()
         {
-            _enabled = _behaviorReaction.IsEnabled;
             _targetDistance = Vector3.Distance(transform.position, _target.position);
             _aggressionDetector.Update(_target, transform);
 
@@ -46,18 +49,6 @@ namespace _Project16_17.Scripts
                     _behaviorReaction.Update();
             }
         }
-
-        // public void SetParticlEffect(ParticleSystem effect)
-        // {
-        //     if (effect == null)
-        //         Debug.Log("Null particle system");
-        //
-        //     if (_behaviorReaction is ReactionBehaviorDead)
-        //     {
-        //         _deadEffect = Instantiate(effect, transform);
-        //         Debug.Log("Создали" +_deadEffect.name);
-        //     }
-        // }
 
         public void SetBehaviorsRest(IBehavior behaviorRest)
         {

@@ -12,6 +12,7 @@ namespace _Project16_17.Scripts
             _source = source;
         }
 
+        public Behaviors Movement => Behaviors.NoMove;
         public bool IsEnabled { get; }
 
         public void DoAction()

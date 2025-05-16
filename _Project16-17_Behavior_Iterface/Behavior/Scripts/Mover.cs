@@ -4,63 +4,24 @@ namespace _Project16_17.Scripts
 {
     public class Mover 
     {
-        private float _minDistanceToTarget;
         private Transform _source;
-
-        private Transform _target;
-        private bool _canMoveToTarget;
         
-        public Mover(Transform source, float speed, float minDistanceToTarget = 0.5f)
+        public Mover(Transform source, float speed)
         {
             _source = source;
 
             if (IsValidFloat(speed) == false)
                 speed = 0;
-
-            if (IsValidFloat(minDistanceToTarget) == false)
-                minDistanceToTarget = 0.5f;
-
+           
             Speed = speed;
-            _minDistanceToTarget = minDistanceToTarget;
-            _canMoveToTarget = false;
         }
         
         public float Speed { get; private set; }
-        public bool IsTargetReached {get; private set; }
-
-        public void Update()
-        {
-            if (_canMoveToTarget == false)
-                return;
-
-            if (IsReachedTarget(_target.position) == false)
-            {
-                MoveToDirection(GetDirection(_target.position));
-                IsTargetReached = false;
-            }
-            else
-            {
-                IsTargetReached = true;
-                _canMoveToTarget = false;
-            }
-        }
 
         public void MoveToDirection(Vector3 direction)
         {
             _source.Translate(direction * (Speed * Time.deltaTime), Space.World);
             _source.rotation = Quaternion.LookRotation(direction);
-        }
-
-        public void MoveToTarget(Transform target)
-        {
-            if (target == null)
-            {
-                Debug.LogError("Target is null");
-                return;
-            }
-
-            _target = target;
-            _canMoveToTarget = true;
         }
 
         public void SetSpeed(float speed)
@@ -70,12 +31,19 @@ namespace _Project16_17.Scripts
             else
                 Debug.LogError("Speed can't be less than 0");
         }
-
-        private bool IsReachedTarget(Vector3 target)
-            => (_source.position - target).magnitude <= _minDistanceToTarget;
-
-        private Vector3 GetDirection(Vector3 target)
-            => (target - _source.position).normalized;
+      
+        public bool TryGetDirection(Transform target,out Vector3 direction)
+        {
+            if (target == null)
+            {
+                direction = Vector3.zero;
+                Debug.Log("Target is null");
+                return false;
+            }
+            
+            direction = (target.transform.position - _source.position).normalized;
+            return true;
+        }
 
         private bool IsValidFloat(float value)
             => value >= 0;

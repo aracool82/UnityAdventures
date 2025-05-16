@@ -9,13 +9,10 @@ namespace _Project16_17.Scripts
         [SerializeField] private Transform _characterTransform;
         [SerializeField] private Enemy _enemyPrefab;
 
-        [SerializeField] private Reactions _reaction;
-        [SerializeField] private Rests _rest;
+        [SerializeField] private Reactions _reaction = Reactions.Dead;
+        [SerializeField] private Rests _rest =Rests.NoMove;
 
         private List<Transform> _points = new();
-
-        private IBehavior _restBehavior;
-        private IBehavior _reactionBehavior;
 
         private void Awake()
         {
@@ -26,8 +23,8 @@ namespace _Project16_17.Scripts
         private void CreateEnemy()
         {
             Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
-            
-            enemy.Initialize(_characterTransform);
+
+            enemy.Initialize(_characterTransform, _reaction, _rest);
             enemy.SetBehaviorsReaction(GetReactionBehavior(_characterTransform, enemy.gameObject, _deadEffect));
             enemy.SetBehaviorsRest(GetRestBehavior(enemy.transform));
         }
@@ -39,7 +36,7 @@ namespace _Project16_17.Scripts
             switch (_rest)
             {
                 case Rests.Patroll:
-                    restBehavior = new RestBehaviorPatroll(source,_points);
+                    restBehavior = new RestBehaviorPatroll(source, _points);
                     break;
 
                 case Rests.NoMove:
@@ -65,11 +62,11 @@ namespace _Project16_17.Scripts
             switch (_reaction)
             {
                 case Reactions.FollowToTarget:
-                    reactionBehavior = new ReactionBehaviorFollowTo(source.transform,characterTransform);
+                    reactionBehavior = new ReactionBehaviorFollowTo(source.transform, characterTransform);
                     break;
 
                 case Reactions.RunAway:
-                    reactionBehavior = new ReactionBehaviorRunAway(source.transform,characterTransform);
+                    reactionBehavior = new ReactionBehaviorRunAway(source.transform, characterTransform);
                     break;
 
                 case Reactions.Dead:
@@ -88,7 +85,7 @@ namespace _Project16_17.Scripts
         {
             List<Transform> points = new();
             int childCount = transform.childCount;
-            int minCount = 2;
+            int minCount = 1;
 
             if (childCount < minCount)
                 Debug.LogError($"Minimum Transform count is {minCount}");
