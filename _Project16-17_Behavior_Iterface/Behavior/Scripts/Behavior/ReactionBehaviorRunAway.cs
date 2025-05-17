@@ -4,8 +4,6 @@ namespace _Project16_17.Scripts
 {
     public class ReactionBehaviorRunAway : IBehavior
     {
-        private const float Speed = 3f;
-        
         private Transform _source;
         private Transform _target;
         private Mover _mover;

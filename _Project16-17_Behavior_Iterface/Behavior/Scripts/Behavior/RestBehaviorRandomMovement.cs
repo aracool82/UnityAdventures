@@ -6,8 +6,6 @@ namespace _Project16_17.Scripts
 {
     public class RestBehaviorRandomMovement : IBehavior
     {
-        private const float Speed = 3f;
-        
         private float _changeDirectonTime;
         private float _time;
 
