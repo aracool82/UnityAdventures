@@ -6,12 +6,12 @@ namespace _Project16_17.Scripts
     {
         private Transform _source;
         private Transform _target;
-       
+
         private Mover _mover;
-        
+
         private Vector3 _directionMove;
         public Reactions _reaction => Reactions.RunAway;
-        
+
         public ReactionBehaviorRunAway(Transform source, Transform target)
         {
             float speed = 3.0f;
@@ -29,13 +29,12 @@ namespace _Project16_17.Scripts
                 return;
 
             _mover.MoveToDirection(_directionMove);
-            //_mover.Update();
         }
 
         public void DoAction()
         {
-            //_directionMove = (_target.position - _source.position).normalized;
-            _directionMove = (_target.position - _source.position).normalized * -1f;
+            Vector3 direction = _source.position - _target.position;
+            _directionMove = new Vector3(direction.x, 0, direction.z).normalized;
             IsEnabled = true;
         }
     }
