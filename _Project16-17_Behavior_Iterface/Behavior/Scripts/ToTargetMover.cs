@@ -39,7 +39,6 @@ namespace _Project16_17.Scripts
             }
         }
 
-
         public void MoveToTarget(Transform target)
         {
             if (target == null)

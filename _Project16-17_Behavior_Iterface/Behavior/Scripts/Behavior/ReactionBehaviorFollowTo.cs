@@ -14,25 +14,14 @@ namespace _Project16_17.Scripts
         {
             _target = target;
             _mover = new ToTargetMover(source);
-            IsEnabled = false;
         }
 
         public Behaviors Movement => Behaviors.FollowToTarget;
-        public bool IsEnabled { get;private set; }
      
         public void Update()
         {
-            if(IsEnabled == false)
-                return;
-                
             _mover.MoveToTarget(_target);
             _mover.Update();
-        }
-
-
-        public void DoAction()
-        {
-            IsEnabled = true;
         }
     }
 }

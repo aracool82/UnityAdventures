@@ -16,12 +16,12 @@ namespace _Project16_17.Scripts
 
         private Reactions _reaction;
         private Rests _rest;
-        
-        public void Initialize(Transform target,Reactions reaction,Rests rest)
+
+        public void Initialize(Transform target, Reactions reaction, Rests rest)
         {
             _reaction = reaction;
             _rest = rest;
-            
+
             _target = target;
             _aggressionDetector = new AggressionDetector(target, transform);
         }
@@ -34,20 +34,9 @@ namespace _Project16_17.Scripts
             stats = _aggressionDetector.IsDecected ? Stats.Reaction : Stats.AtRest;
 
             if (stats == Stats.AtRest)
-            {
-                if (_behaviorRest.IsEnabled)
-                {
-                    _behaviorRest.DoAction();
-                    _behaviorRest.Update();
-                }
-            }
+                _behaviorRest.Update();
             else if (stats == Stats.Reaction)
-            {
-                _behaviorReaction.DoAction();
-                
-                if (_behaviorReaction.IsEnabled)
-                    _behaviorReaction.Update();
-            }
+                _behaviorReaction.Update();
         }
 
         public void SetBehaviorsRest(IBehavior behaviorRest)

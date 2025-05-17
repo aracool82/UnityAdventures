@@ -8,7 +8,7 @@ namespace _Project16_17.Scripts
         private List<Transform> _points = new List<Transform>();
         private Transform _curentTarget;
         private Queue<Transform> _waypoints = new Queue<Transform>();
-        private ToTargetMover _mover;
+        private ToTargetMover _mover;//TODO
         private Transform _source;
 
         public RestBehaviorPatroll(Transform source, List<Transform> points)
@@ -20,37 +20,18 @@ namespace _Project16_17.Scripts
                 _points = points;
                 _source = source;
                 _mover = new ToTargetMover(source);
-                IsEnabled = true;
                 CreateQueue();
             }
         }
 
         public Behaviors Movement => Behaviors.Patroll;
-        public bool IsEnabled { get; private set; }
-
-        // public Vector3 GetNextPoint()
-        // {
-        //     Vector3 point = _points[_curentIndex].position;
-        //     _curentIndex = (_curentIndex + 1) % _points.Count;
-        //     return point;
-        // }
-
-        public void DoAction()
-        {
-            IsEnabled = true;
-        }
 
         public void Update()
         {
-            if (IsEnabled == false)
-                return;
-            
            if(_mover.IsReachedTarget)
                 _curentTarget = GetNextTarget();
            
             _mover.MoveToTarget(_curentTarget);
-            
-            
             _mover.Update();
         }
 

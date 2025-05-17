@@ -15,26 +15,20 @@ namespace _Project16_17.Scripts
         private Mover _mover;
         private Transform _source;
 
-        private bool _canMove;
-
         public RestBehaviorRandomMovement(Transform source)
         {
             float speed = 3f;
             _mover = new Mover(source, speed);
             _source = source;
             _changeDirectonTime = 1f;
-            IsEnabled = true;
             _direction = _directions[0];
         }
 
         public Behaviors Movement => Behaviors.RandomDirectionMove;
-        public bool IsEnabled { get;private set; }
+
         
         public void Update()
         {
-            if (IsEnabled == false)
-                return;
-
             _time += Time.deltaTime;
 
             if (_time >= _changeDirectonTime)
@@ -48,10 +42,5 @@ namespace _Project16_17.Scripts
 
         public Vector3 GetNextDirection()
             => _directions[Random.Range(0, _directions.Count)];
-
-        public void DoAction()
-        {
-            IsEnabled = true;
-        }
     }
 }

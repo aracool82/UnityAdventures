@@ -21,21 +21,13 @@ namespace _Project16_17.Scripts
         }
 
         public Behaviors Movement => Behaviors.RunAway;
-        public bool IsEnabled { get; private set; }
 
         public void Update()
         {
-            if (IsEnabled == false)
-                return;
-
-            _mover.MoveToDirection(_directionMove);
-        }
-
-        public void DoAction()
-        {
             Vector3 direction = _source.position - _target.position;
             _directionMove = new Vector3(direction.x, 0, direction.z).normalized;
-            IsEnabled = true;
+
+            _mover.MoveToDirection(_directionMove);
         }
     }
 }
