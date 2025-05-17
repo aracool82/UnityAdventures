@@ -746,6 +746,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4931777824217160664, guid: 561e79c3ac0fb6c44a46b91812142cd5,
         type: 3}
+      propertyPath: _rest
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931777824217160664, guid: 561e79c3ac0fb6c44a46b91812142cd5,
+        type: 3}
+      propertyPath: _reaction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931777824217160664, guid: 561e79c3ac0fb6c44a46b91812142cd5,
+        type: 3}
       propertyPath: _deadEffect
       value: 
       objectReference: {fileID: 910277929}

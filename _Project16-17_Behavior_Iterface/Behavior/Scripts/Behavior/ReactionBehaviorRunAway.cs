@@ -4,23 +4,23 @@ namespace _Project16_17.Scripts
 {
     public class ReactionBehaviorRunAway : IBehavior
     {
+        private const float Speed = 3f;
+        
         private Transform _source;
         private Transform _target;
-
         private Mover _mover;
 
         private Vector3 _directionMove;
-        public Reactions _reaction => Reactions.RunAway;
 
-        public ReactionBehaviorRunAway(Transform source, Transform target)
+        public ReactionBehaviorRunAway(Transform source, Transform target,float speed)
         {
-            float speed = 3.0f;
-            _source = source;
-            _target = target;
-            _mover = new Mover(source, speed);
+            if(Utils.Validator.IsValidReference(source) && Utils.Validator.IsValidReference(target) && Utils.Validator.IsValidFLoat(speed))
+            {
+                _source = source;
+                _target = target;
+                _mover = new Mover(source, speed);
+            }
         }
-
-        public Behaviors Movement => Behaviors.RunAway;
 
         public void Update()
         {

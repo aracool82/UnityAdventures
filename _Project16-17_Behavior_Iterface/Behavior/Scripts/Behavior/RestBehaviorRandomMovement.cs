@@ -6,6 +6,8 @@ namespace _Project16_17.Scripts
 {
     public class RestBehaviorRandomMovement : IBehavior
     {
+        private const float Speed = 3f;
+        
         private float _changeDirectonTime;
         private float _time;
 
@@ -15,18 +17,17 @@ namespace _Project16_17.Scripts
         private Mover _mover;
         private Transform _source;
 
-        public RestBehaviorRandomMovement(Transform source)
+        public RestBehaviorRandomMovement(Transform source,float speed)
         {
-            float speed = 3f;
-            _mover = new Mover(source, speed);
-            _source = source;
-            _changeDirectonTime = 1f;
-            _direction = _directions[0];
+            if(Utils.Validator.IsValidReference(source) && Utils.Validator.IsValidFLoat(speed))
+            {
+                _source = source;
+                _changeDirectonTime = 1f;
+                _direction = _directions[0];
+                _mover = new Mover(source, speed);
+            }
         }
 
-        public Behaviors Movement => Behaviors.RandomDirectionMove;
-
-        
         public void Update()
         {
             _time += Time.deltaTime;

@@ -4,14 +4,6 @@ namespace _Project16_17.Scripts
 {
     public class RestBehaviorStandInPlace : IBehavior
     {
-        private Transform _source;
-        private Vector3 _position;
-
-        public RestBehaviorStandInPlace(Transform source)
-            => _source = source;
-
-        public Behaviors Movement => Behaviors.NoMove;
-
         public void Update()
         {
         }

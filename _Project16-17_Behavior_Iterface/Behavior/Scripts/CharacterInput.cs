@@ -10,7 +10,10 @@ namespace _Project16_17.Scripts
         private IMoveble _character;
 
         public CharacterInput(IMoveble character)
-            =>_character = character;
+        {
+            if(Utils.Validator.IsValidReference(character))
+                _character = character;
+        }
 
         public void Update()
         {

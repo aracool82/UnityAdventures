@@ -14,21 +14,18 @@ namespace _Project16_17.Scripts
 
         private Transform _target;
 
-        private Reactions _reaction;
-        private Rests _rest;
-
-        public void Initialize(Transform target, Reactions reaction, Rests rest)
+        public void Initialize(Transform target)
         {
-            _reaction = reaction;
-            _rest = rest;
-
-            _target = target;
-            _aggressionDetector = new AggressionDetector(target, transform);
+            if( Utils.Validator.IsValidReference(target))
+            {
+                _target = target;
+                _aggressionDetector = new AggressionDetector(target, transform);
+            }
         }
 
         private void Update()
         {
-            _targetDistance = Vector3.Distance(transform.position, _target.position);
+            _targetDistance = _aggressionDetector.TargetDistance;
             _aggressionDetector.Update(_target, transform);
 
             stats = _aggressionDetector.IsDecected ? Stats.Reaction : Stats.AtRest;
@@ -37,29 +34,20 @@ namespace _Project16_17.Scripts
                 _behaviorRest.Update();
             else if (stats == Stats.Reaction)
                 _behaviorReaction.Update();
+            else
+                Debug.LogError("Unknown stats");
         }
 
         public void SetBehaviorsRest(IBehavior behaviorRest)
         {
-            if (IsValidBehavior(behaviorRest))
+            if (Utils.Validator.IsValidReference(behaviorRest))
                 _behaviorRest = behaviorRest;
         }
 
         public void SetBehaviorsReaction(IBehavior behaviorReaction)
         {
-            if (IsValidBehavior(behaviorReaction))
+            if (Utils.Validator.IsValidReference(behaviorReaction))
                 _behaviorReaction = behaviorReaction;
-        }
-
-        private bool IsValidBehavior(IBehavior behavior)
-        {
-            if (behavior == null)
-            {
-                Debug.LogError("Behavior is null");
-                return false;
-            }
-
-            return true;
         }
     }
 }

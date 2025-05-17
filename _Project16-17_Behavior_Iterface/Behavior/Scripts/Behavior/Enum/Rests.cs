@@ -2,7 +2,7 @@
 {
     public enum Rests
     {
-        NoMove = 10,
+        NoMove = 0,
         Patroll,
         RandomDirectionMove
     }

@@ -6,22 +6,21 @@ namespace _Project16_17.Scripts
     {
         private Transform _target;
         private Transform _source;    
-        private ToTargetMover _mover;
-        
-        private Reactions Reaction => Reactions.FollowToTarget;
-        
-        public ReactionBehaviorFollowTo(Transform source, Transform target)
-        {
-            _target = target;
-            _mover = new ToTargetMover(source);
-        }
+        private Mover _mover;
 
-        public Behaviors Movement => Behaviors.FollowToTarget;
+        public ReactionBehaviorFollowTo(Transform source, Transform target,float speed)
+        {
+            if(Utils.Validator.IsValidReference(source) && Utils.Validator.IsValidReference(target) && Utils.Validator.IsValidFLoat(speed))
+            {
+                _target = target;
+                _mover = new Mover(source, speed);
+            }
+        }
      
         public void Update()
         {
-            _mover.MoveToTarget(_target);
-            _mover.Update();
+            if(_mover.TryGetDirection(_target,out Vector3 direction))
+                _mover.MoveToDirection(direction);
         }
     }
 }

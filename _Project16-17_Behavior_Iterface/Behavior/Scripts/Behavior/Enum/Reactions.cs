@@ -2,7 +2,7 @@
 {
     public enum Reactions
     {
-        FollowToTarget = 1,
+        FollowToTarget = 0,
         RunAway,
         Dead
     }

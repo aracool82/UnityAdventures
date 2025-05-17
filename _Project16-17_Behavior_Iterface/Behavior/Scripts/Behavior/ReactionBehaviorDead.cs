@@ -10,13 +10,14 @@ namespace _Project16_17.Scripts
 
         public ReactionBehaviorDead(GameObject source, ParticleSystem deadEffect)
         {
-            _source = source;
-            _deadEffect = deadEffect;
-            _destroyTime = 0.1f;
+            if(Utils.Validator.IsValidReference(source) && Utils.Validator.IsValidReference(deadEffect))
+            {
+                _source = source;
+                _deadEffect = deadEffect;
+                _destroyTime = 0.1f;
+            }
         }
         
-        public Behaviors Movement => Behaviors.Dead;
-
         public void Update()
         {
             _deadEffect.transform.position = _source.transform.position;

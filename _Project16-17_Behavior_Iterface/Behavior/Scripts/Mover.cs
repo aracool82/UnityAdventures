@@ -2,20 +2,19 @@ using UnityEngine;
 
 namespace _Project16_17.Scripts
 {
-    public class Mover 
+    public class Mover
     {
         private Transform _source;
-        
+
         public Mover(Transform source, float speed)
         {
-            _source = source;
+            if (Utils.Validator.IsValidReference(source))
+                _source = source;
 
-            if (IsValidFloat(speed) == false)
-                speed = 0;
-           
-            Speed = speed;
+            if (Utils.Validator.IsValidFLoat(speed))
+                Speed = speed;
         }
-        
+
         public float Speed { get; private set; }
 
         public void MoveToDirection(Vector3 direction)
@@ -24,28 +23,17 @@ namespace _Project16_17.Scripts
             _source.rotation = Quaternion.LookRotation(direction);
         }
 
-        public void SetSpeed(float speed)
+        public bool TryGetDirection(Transform target, out Vector3 direction)
         {
-            if (IsValidFloat(speed))
-                Speed = speed;
-            else
-                Debug.LogError("Speed can't be less than 0");
-        }
-      
-        public bool TryGetDirection(Transform target,out Vector3 direction)
-        {
-            if (target == null)
+            if (!Utils.Validator.IsValidReference(target))
             {
                 direction = Vector3.zero;
-                Debug.Log("Target is null");
                 return false;
             }
-            
+
             direction = (target.transform.position - _source.position).normalized;
+            
             return true;
         }
-
-        private bool IsValidFloat(float value)
-            => value >= 0;
     }
 }

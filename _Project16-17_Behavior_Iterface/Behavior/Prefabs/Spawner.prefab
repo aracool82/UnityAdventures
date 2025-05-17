@@ -51,8 +51,8 @@ MonoBehaviour:
   _characterTransform: {fileID: 0}
   _enemyPrefab: {fileID: 5074383403242208742, guid: 2497eb8b8e8868743b4bb5f4fce86108,
     type: 3}
-  _reaction: 3
-  _rest: 10
+  _reaction: 2
+  _rest: 2
 --- !u!1 &1589846561914050580
 GameObject:
   m_ObjectHideFlags: 0
