@@ -5,13 +5,13 @@ namespace _Project16_17.Scripts
     public class AggressionDetector
     {
         private const float AggressionDistance = 3f;
-        
+
         private Transform _source;
         private Transform _target;
         
         public AggressionDetector(Transform target, Transform source)
         {
-            if(Utils.Validator.IsValidReference(target) && Utils.Validator.IsValidReference(source))
+            if (Utils.Validator.IsValidReference(target) && Utils.Validator.IsValidReference(source))
             {
                 _target = target;
                 _source = source;

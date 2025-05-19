@@ -26,9 +26,9 @@ namespace _Project16_17.Scripts
         {
             Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
 
-            enemy.Initialize(_characterTransform);
             enemy.SetBehaviorsReaction(GetReactionBehavior(_characterTransform, enemy.gameObject, _deadEffect));
             enemy.SetBehaviorsRest(GetRestBehavior(enemy.transform));
+            enemy.Initialize(_characterTransform,new AggressionDetector(_characterTransform,enemy.transform));
         }
 
         private IBehavior GetRestBehavior(Transform source)
