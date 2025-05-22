@@ -11,8 +11,8 @@ namespace _Project20_21.Explosion.Scripts
 
         public void Explode(Vector3 position,List<IExploded> boxes )
         {
-            foreach (IExploded box in boxes)
-              box.Rigidbody.AddExplosionForce(_power, position, _radius, _upwardsModifier, ForceMode.Impulse);
+            // foreach (IExploded box in boxes)
+            //   box.Rigidbody.AddExplosionForce(_power, position, _radius, _upwardsModifier, ForceMode.Impulse);
         }
     }
 }

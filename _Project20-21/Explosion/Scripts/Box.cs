@@ -1,28 +1,24 @@
+using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace _Project20_21.Explosion.Scripts
 {
-    [RequireComponent(typeof(Rigidbody), typeof(Explosion))]
+    [RequireComponent(typeof(Rigidbody))]
     public class Box : MonoBehaviour, ISelectable, IExploded
     {
-        [SerializeField] private MouseInput _mouseInput;
-
-        private Spawner _spawner;
         private Material _material;
         private Rigidbody _rigidbody;
-        private float _offsetY = 1.0f;
+        private Mover _mover;
 
+        private Coroutine _coroutine;
         private Explosion _explosion;
-
-        public Rigidbody Rigidbody => _rigidbody;
-
-        public void Initialize(Spawner spawner)
+        
+        private bool _isSelected = false;
+        
+        public void Initialize(Mover mover)
         {
-            //_mouseInput.Selector;
-            _spawner = spawner;
+            _mover = mover;
         }
-
 
         private void Awake()
         {
@@ -31,12 +27,29 @@ namespace _Project20_21.Explosion.Scripts
             _material = GetComponentInChildren<MeshRenderer>().material;
 
             if (_material != null)
-                _material.color = Color.HSVToRGB(0f, Random.Range(0f, 1f), Random.Range(0f, 1f));
+                _material.color = Color.blue;
         }
 
-        private void OnMouseUpAsButton()
+        public void Select()
         {
-            //Explode();
+            _isSelected = true;
+            _material.color = Color.yellow;
+        }
+
+        public void Move(Transform target)
+        {
+            if (target == null)
+            {
+                Debug.LogWarning("Target is null");
+                return;
+            }
+
+            if (_isSelected)
+            {
+                _isSelected = false;
+                _material.color = Color.blue;
+                _mover.MoveTo(target);
+            }
         }
 
         public void PickUp()
@@ -53,7 +66,9 @@ namespace _Project20_21.Explosion.Scripts
 
         public void Explode()
         {
-            _explosion.Explode(transform.position, _spawner.ExplodedBoxes);
+            // _explosion.Explode(transform.position, _spawner.ExplodedBoxes);
         }
+
+       
     }
 }

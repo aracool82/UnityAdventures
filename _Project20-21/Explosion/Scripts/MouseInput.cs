@@ -1,12 +1,13 @@
-using System;
 using UnityEngine;
 
 namespace _Project20_21.Explosion.Scripts
 {
     public class MouseInput : MonoBehaviour
     {
-        private Selector _selector;
+        [SerializeField] private Transform _target;
         
+        private Selector _selector;
+            
         private const int _leftMouseButton = 0;
         private const int _rightMouseButton = 1;
 
@@ -19,16 +20,20 @@ namespace _Project20_21.Explosion.Scripts
         private void Awake()
         {
             _camera = Camera.main;
-            
+            _selector = new Selector();
         }
 
         void Update()
         {
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            
             if (Input.GetMouseButtonDown(_leftMouseButton))
             {
-                if(_selector.TrySelect(out Box box))
-                    box.PickUp();
-                //_selectableBox.PickUp();
+                if (_selector.TrySelect(ray.origin, ray.direction))
+                {
+                    _box = _selector.GetSelected();
+                    _box.Move(_target);
+                }
             }
 
             if (Input.GetMouseButtonUp(_leftMouseButton))

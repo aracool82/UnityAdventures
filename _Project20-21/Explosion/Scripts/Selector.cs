@@ -2,41 +2,37 @@
 
 namespace _Project20_21.Explosion.Scripts
 {
-    public class Selector : MonoBehaviour
+    public class Selector
     {
-        private Camera _camera;
+        private Box _box;
 
-        private void Awake()
-            => _camera = Camera.main;
-
-        public bool TrySelect(out Box box)
+        public Box GetSelected()
         {
-            box = null;
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            if(IsSelected())
+                return _box;
+            
+            Debug.Log("No box selected");
+            return null;
+        }
+    
+        public bool TrySelect(Vector3 origin, Vector3 direction)
+        {
+            Ray ray = new Ray(origin, direction);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit) == false)
+                return false;
+
+            if (hit.collider.TryGetComponent(out Box box))
             {
-                if (hit.collider.TryGetComponent(out Box selectableBox))
-                {
-                    box = selectableBox;
-                    return true;
-                }
+                _box = box;
+                _box.Select();
+                return true;
             }
 
             return false;
         }
-
-        private void OnDrawGizmos()
-        {
-            // if (Application.isPlaying)
-            // {
-            //     Gizmos.color = Color.red;
-            //     _camera = Camera.main;
-            //     Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            //     Gizmos.DrawRay(_camera.transform.position, ray.direction * 10f);
-            //     Gizmos.DrawCube(new Vector3(0f, 0f, 0f), Vector3.one);
-            //     //Gizmos.DrawIcon();}
-            // }
-        }
+        
+        private bool IsSelected()
+            => _box != null;
     }
 }

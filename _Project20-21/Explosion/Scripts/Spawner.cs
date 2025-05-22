@@ -5,18 +5,18 @@ namespace _Project20_21.Explosion.Scripts
 {
     public class Spawner : MonoBehaviour
     {
+        private const float BoxSpeed = 6f;
+        
+        [SerializeField] private AnimationCurve _moverCurve;
         [SerializeField] private Box _boxPrefab;
         [SerializeField] private int _count;
         [SerializeField] private float _horizontalX;
         [SerializeField] private float _verticalZ;
-        [SerializeField] private Selector _selector;
-        
-        private List<IExploded> _explodedBoxes = new List<IExploded>();
-        
-        public  List<IExploded> ExplodedBoxes => _explodedBoxes; 
+
         
         private void Awake()
         {
+            
             CreateBoxes();
         }
 
@@ -25,7 +25,8 @@ namespace _Project20_21.Explosion.Scripts
             for (int i = 0; i < _count; i++)
             {
                 Box box = Instantiate(_boxPrefab, GetRandomPosition(), Quaternion.identity, transform);
-                _explodedBoxes.Add(box);
+                box.name = $"Box_{i}";
+                box.Initialize(new Mover(box,_moverCurve,box.transform,BoxSpeed));
             }
             
             AddReferenceAtSpawner();
@@ -33,8 +34,8 @@ namespace _Project20_21.Explosion.Scripts
 
         private void AddReferenceAtSpawner()
         {
-            foreach (IExploded box in _explodedBoxes)
-                box.Initialize(this);
+            // foreach (IExploded box in _explodedBoxes)
+            //     box.Initialize(this);
         }
 
         private Vector3 GetRandomPosition()
