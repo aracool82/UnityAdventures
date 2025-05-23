@@ -3,22 +3,19 @@ using UnityEngine;
 
 public class Mover
 {
-    private const float MinDistanceToTarget = 0.1f;
-
     private Transform _source;
     private Transform _target;
-    private float _speed;
     private AnimationCurve _moveCurve;
-    private MonoBehaviour _box;
-    private bool _isMoving = true;
+    private MonoBehaviour _monoBehaviour;
     private Coroutine _moveCoroutine;
     
-    public Mover(MonoBehaviour box ,AnimationCurve moveCurve,Transform source, float speed)
+    private bool _isMoving = true;
+    
+    public Mover(MonoBehaviour monoBehaviour ,AnimationCurve moveCurve,Transform source)
     {
-        _box = box;
+        _monoBehaviour = monoBehaviour;
         _moveCurve = moveCurve;
         _source = source;
-        _speed = speed;
     }
 
     public void MoveTo(Transform target)
@@ -32,7 +29,7 @@ public class Mover
         if(_isMoving == false)
             return;
 
-        _moveCoroutine = _box.StartCoroutine(ProcessMove(target));
+        _moveCoroutine = _monoBehaviour.StartCoroutine(ProcessMove(target));
     }
 
     private IEnumerator ProcessMove(Transform target)
@@ -54,10 +51,4 @@ public class Mover
         _moveCoroutine = null;
         _isMoving = true;
     }
-
-    private bool IsReachedTarget(Vector3 target)
-        => Vector3.Distance(target,_source.position) < MinDistanceToTarget;
-
-    private Vector3 GetDirection()
-        => _target.position - _source.position;
 }

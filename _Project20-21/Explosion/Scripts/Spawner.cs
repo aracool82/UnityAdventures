@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Project20_21.Explosion.Scripts
@@ -12,11 +11,9 @@ namespace _Project20_21.Explosion.Scripts
         [SerializeField] private int _count;
         [SerializeField] private float _horizontalX;
         [SerializeField] private float _verticalZ;
-
         
         private void Awake()
         {
-            
             CreateBoxes();
         }
 
@@ -26,16 +23,8 @@ namespace _Project20_21.Explosion.Scripts
             {
                 Box box = Instantiate(_boxPrefab, GetRandomPosition(), Quaternion.identity, transform);
                 box.name = $"Box_{i}";
-                box.Initialize(new Mover(box,_moverCurve,box.transform,BoxSpeed));
+                box.Initialize(new Mover(this,_moverCurve,box.transform));
             }
-            
-            AddReferenceAtSpawner();
-        }
-
-        private void AddReferenceAtSpawner()
-        {
-            // foreach (IExploded box in _explodedBoxes)
-            //     box.Initialize(this);
         }
 
         private Vector3 GetRandomPosition()
