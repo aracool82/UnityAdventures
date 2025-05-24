@@ -4,63 +4,26 @@ namespace _Project20_21.Explosion.Scripts
 {
     public class Selector
     {
-        public bool TrySelectGround(Vector3 origin, Vector3 direction,out Vector3 point, out Ground ground)
-        {
-            if (IsTach(origin, direction, out RaycastHit hit))
-            {
-                if (hit.collider.TryGetComponent(out ground))
-                {
-                    point = hit.point;
-                    return true;
-                }
-            }
+        private LayerMask _boxLayerMask;
 
-            point = Vector3.zero;
-            ground = null;
-            return false;
-        }
-        
-        public bool TrySelect(Vector3 origin, Vector3 direction, out Box box)
+        public Selector(LayerMask boxLayerMask)
         {
-            if (IsTach(origin, direction, out RaycastHit hit))
-            {
-                if (hit.collider.TryGetComponent(out box))
-                {
-                    if(box.IsSelected == false)
-                    {
-                        box.Select();
-                        return true;
-                    }
-                    
-                    box.Deselect();
-                    return false;
-                }
-            }
-            
-            box = null;
-            return false;
+            _boxLayerMask = boxLayerMask;
         }
 
-        public bool TryGetPoint(Vector3 origin, Vector3 direction, out Vector3 point)
+        public bool TrySelect(Ray ray, out ISelectable selectable)
         {
-            if (IsTach(origin, direction, out RaycastHit hit))
+            selectable = null;
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _boxLayerMask) == false)
+                return false;
+
+            if (hit.collider.TryGetComponent(out selectable))
             {
-                point = hit.point;
+                selectable.Select();
                 return true;
             }
 
-            point = Vector3.zero;
-            return false;
-        }
-
-        private bool IsTach(Vector3 origin, Vector3 direction, out RaycastHit hit)
-        {
-            Ray ray = new Ray(origin, direction);
-
-            if (Physics.Raycast(ray, out hit))
-                return true;
-
-            hit = new RaycastHit();
             return false;
         }
     }

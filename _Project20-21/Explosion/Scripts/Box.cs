@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Project20_21.Explosion.Scripts
 {
@@ -10,21 +8,14 @@ namespace _Project20_21.Explosion.Scripts
         private Material _material;
         private Rigidbody _rigidbody;
         private BoxCollider _boxCollider;
-        private Mover _mover;
-        private Coroutine _coroutine;
         private Explosion _explosion;
 
         public bool IsSelected { get; private set; }
-
-        public void Initialize(Mover mover)
-        {
-            _mover = mover;
-        }
+        public Rigidbody Rigidbody => _rigidbody;
 
         private void Awake()
         {
             _boxCollider = GetComponent<BoxCollider>();
-            _explosion = GetComponent<Explosion>();
             _rigidbody = GetComponent<Rigidbody>();
             _material = GetComponentInChildren<MeshRenderer>().material;
 
@@ -56,17 +47,10 @@ namespace _Project20_21.Explosion.Scripts
                 return;
             }
 
-            if (IsSelected)
-            {
-                transform.position = target.position + Vector3.up * 2 ;
-                //_mover.MoveTo(target);
-                //Deselect();
-            }
-        }
+            Vector3 offsetY = Vector3.up * 2;
 
-        public void Explode()
-        {
-            // _explosion.Explode(transform.position, _spawner.ExplodedBoxes);
+            if (IsSelected)
+                transform.position = target.position + offsetY;
         }
     }
 }

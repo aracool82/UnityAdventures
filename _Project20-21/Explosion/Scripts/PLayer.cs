@@ -1,64 +1,69 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Project20_21.Explosion.Scripts
 {
     public class PLayer : MonoBehaviour
     {
-        [SerializeField] private Transform _targetTransform;
+        [SerializeField] private LayerMask _groundLayerMask;
+        [SerializeField] private LayerMask _boxLayerMask;
+
+        [SerializeField] private Transform _markerTransform;
+
+        [SerializeField] private float _explosionRadius;
+        [SerializeField] private float _explosionPower;
+        
+        [SerializeField] private ParticleSystem _boomEffectPrefab;
         
         private const int _leftMouseButton = 0;
         private const int _rightMouseButton = 1;
 
         private Selector _selector;
-        private Camera _camera;
-        private Box _box;
-        private List<Box> _boxes = new List<Box>(); 
+        private MarkerControl _markerControl;
+        private Explosion _explosion;
         
-        private bool _canMoveSelecteble = false;
+        private Camera _camera;
+        private ISelectable _selectable;
+       
 
         private void Awake()
         {
+            _selector = new Selector(_boxLayerMask);
+            _markerControl = new MarkerControl(_markerTransform, _groundLayerMask);
             _camera = Camera.main;
-            _selector = new Selector();
         }
 
         void Update()
         {
+            _markerControl.Update();
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Input.GetMouseButtonDown(_leftMouseButton)
-                && _selector.TrySelect(ray.origin, ray.direction, out Box box))
-            {
-                _box = box;
-                //_boxes.Add(box);
-                // _canMoveSelecteble = true;
-            }
+            if (Input.GetMouseButtonDown(_leftMouseButton) && _selector.TrySelect(ray, out ISelectable selectable))
+                _selectable = selectable;
 
-            if (Input.GetMouseButton(_leftMouseButton) 
-                && _selector.TrySelectGround(ray.origin, ray.direction,out Vector3 point, out Ground ground))
+            if (Input.GetMouseButton(_leftMouseButton))
+                if(IsSelected())
+                    _selectable.Move(_markerTransform);
+
+            if (Input.GetMouseButtonUp(_leftMouseButton))
             {
-                _canMoveSelecteble = true;
-                _targetTransform.position = point; 
-                if (_box != null)
+                if (IsSelected())
                 {
-                    _box.Move(_targetTransform);
+                    _selectable.Deselect();
+                    _selectable = null;
                 }
-                //MoveSelecteble(_targetTransform);
             }
             
-            if(Input.GetMouseButtonUp(_leftMouseButton))
-            {
-                _box.Deselect();
-                _canMoveSelecteble = false;
-            }
+            if(Input.GetMouseButtonDown(_rightMouseButton))
+                Explode(_markerControl.Position);
         }
 
-        private void MoveSelecteble(Transform target)
+        private bool IsSelected()
+            =>_selectable != null;
+
+        private void Explode(Vector3 position)
         {
-            foreach (Box box in _boxes)
-                box.Move(target);                
+            Explosion explosion = new Explosion(_explosionRadius, _explosionPower,_boomEffectPrefab);
+            explosion.Explode(position);
         }
     }
 }
