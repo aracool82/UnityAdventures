@@ -1,26 +1,41 @@
-using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Ship : MonoBehaviour
+namespace _Project20_21.SailingShip.Scripts
 {
-    [SerializeField] private Wind _wind;
-    [SerializeField] private float _speed;
-    
-    private Rigidbody _rigidbody;
-    private Vector3 _force;
-    private void Awake()
+    [RequireComponent(typeof(Rigidbody))]
+    public class Ship : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
+        [SerializeField] private Wind _wind;
+        //[SerializeField] private float _speed;
 
-    private void Update()
-    {
-        _force = _wind.Direction * _speed * Time.deltaTime;
-    }
+        private const float RorationSpeed = 20f;
 
-    private void FixedUpdate()
-    {
-        _rigidbody.AddForce(_force);
+        private Rigidbody _rigidbody;
+        private Rotator _rotator;
+        private Vector3 _force;
+
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+            _rotator = new Rotator(transform,RorationSpeed,KeyCode.W,KeyCode.Q);
+            if (_rotator == null)
+            {
+                Debug.LogError("No Rotator attached");
+                Application.Quit();
+            }
+
+        }
+
+        private void Update()
+        {
+            _rotator.Update();
+
+            //_force = _wind.Direction * _speed * Time.deltaTime;
+        }
+
+        private void FixedUpdate()
+        {
+            _rigidbody.AddForce(_force);
+        }
     }
 }
