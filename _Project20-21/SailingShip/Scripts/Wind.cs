@@ -4,24 +4,19 @@ namespace _Project20_21.SailingShip.Scripts
 {
     public class Wind : MonoBehaviour
     {
-        [SerializeField] private Ship _ship;
-
-        [SerializeField] private float _changeDirectionTime;
-        private float _time;
-
-        public Vector3 Direction => transform.forward;
+        private DirectionGenerator _directionGenerator;
+        private Rotator _rotator;
+        
+        private void Awake()
+        {
+            _directionGenerator = new DirectionGenerator(3, 360);
+            _rotator = new Rotator(transform, 500);
+        }
 
         private void Update()
         {
-            transform.position = new Vector3(_ship.transform.position.x, transform.position.y, _ship.transform.position.z);
-            
-            _time += Time.deltaTime;
-
-            if (_time >= _changeDirectionTime)
-            {
-                _time = 0;
-                transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(0f, 180), 0));
-            }
+            _directionGenerator.Update(Time.deltaTime);
+            _rotator.Rotation(Time.deltaTime, _directionGenerator.Direction);    
         }
     }
 }

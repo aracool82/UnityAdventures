@@ -441,7 +441,7 @@ MonoBehaviour:
     m_Bits: 64
   _boxLayerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 128
   _markerTransform: {fileID: 2028574032}
   _explosionRadius: 5
   _explosionPower: 20
@@ -646,7 +646,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _boxPrefab: {fileID: 2231984699316792773, guid: 76f6c5b8774772845902838e1e507337,
+  _boxPrefab: {fileID: 1289797608128186635, guid: 76f6c5b8774772845902838e1e507337,
     type: 3}
   _count: 100
   _horizontalX: 5
@@ -660,7 +660,7 @@ Transform:
   m_GameObject: {fileID: 1146996519}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.97, y: 0, z: 0.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

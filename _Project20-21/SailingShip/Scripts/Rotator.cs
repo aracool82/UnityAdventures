@@ -2,39 +2,24 @@ using UnityEngine;
 
 namespace _Project20_21.SailingShip.Scripts
 {
-    public class Rotator : MonoBehaviour
+    public class Rotator : IRoratebleCondition
     {
         private Transform _source;
-        
-        private KeyCode _turnRightKey;
-        private KeyCode _turnLeftKey;
+        private float _speed;
+        private Vector3 _rotationAxis;
+        private float _angle;
 
-        private float _rotationSpeed;
-        private float _currentAngle;
-        private float _limitAngleY;
-
-        public Rotator(Transform source,float rotationSpeed,KeyCode turnRightKey, KeyCode turnLeftKey, float limitAngleY = 0)
+        public Rotator(Transform source, float speed)
         {
             _source = source;
-            _rotationSpeed = rotationSpeed;
-            _turnRightKey = turnRightKey;
-            _turnLeftKey = turnLeftKey;
-            _limitAngleY = limitAngleY;
+            _speed = speed;
         }
 
-        private bool IsPressedRightKey => Input.GetKey(_turnRightKey);
-        private bool IsPressedLeftKey => Input.GetKey(_turnLeftKey);
-        
-        public void Update()
+        public void Rotation(float deltaTime, Vector3 direction)
         {
-            if(IsPressedRightKey )
-                RotateTo(_source,Directions.Right);
-            
-            if(IsPressedLeftKey)
-                RotateTo(_source,Directions.Left);
+            Quaternion fromRotation = _source.rotation;
+            Quaternion toRotation = Quaternion.Euler(direction);
+            _source.rotation = Quaternion.RotateTowards(fromRotation, toRotation, _speed * deltaTime);
         }
-
-        private void RotateTo(Transform source,Directions direction)
-            =>source.Rotate(0, (int)direction * _rotationSpeed * Time.deltaTime, 0);
     }
 }

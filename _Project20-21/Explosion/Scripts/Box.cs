@@ -2,13 +2,11 @@ using UnityEngine;
 
 namespace _Project20_21.Explosion.Scripts
 {
-    [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
     public class Box : MonoBehaviour, ISelectable, IExploded
     {
         private Material _material;
-        private Rigidbody _rigidbody;
+        public Rigidbody _rigidbody;
         private BoxCollider _boxCollider;
-        private Explosion _explosion;
 
         public bool IsSelected { get; private set; }
         public Rigidbody Rigidbody => _rigidbody;

@@ -5,11 +5,8 @@ namespace _Project20_21.SailingShip.Scripts
     [RequireComponent(typeof(Rigidbody))]
     public class Ship : MonoBehaviour
     {
-        [SerializeField] private Wind _wind;
-        //[SerializeField] private float _speed;
-
-        private const float RorationSpeed = 20f;
-
+        [SerializeField] private float RorationSpeed = 20f;
+        [SerializeField] private Vector3 _angle;
         private Rigidbody _rigidbody;
         private Rotator _rotator;
         private Vector3 _force;
@@ -17,25 +14,22 @@ namespace _Project20_21.SailingShip.Scripts
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _rotator = new Rotator(transform,RorationSpeed,KeyCode.W,KeyCode.Q);
-            if (_rotator == null)
-            {
-                Debug.LogError("No Rotator attached");
-                Application.Quit();
-            }
-
+            // _rotator = new Rotator(transform, 10, -Vector3.up, 2);
         }
 
         private void Update()
         {
-            _rotator.Update();
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(_angle),
+                Time.deltaTime * RorationSpeed);
 
-            //_force = _wind.Direction * _speed * Time.deltaTime;
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                transform.rotation = Quaternion.identity;
         }
 
         private void FixedUpdate()
         {
-            _rigidbody.AddForce(_force);
+            // _rigidbody.AddForce(_force);
         }
     }
 }
