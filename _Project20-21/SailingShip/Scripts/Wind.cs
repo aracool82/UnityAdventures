@@ -4,7 +4,6 @@ namespace _Project20_21.SailingShip.Scripts
 {
     public class Wind : MonoBehaviour
     {
-
         private DirectionGenerator _directionGenerator;
         private Rotator _rotator;
 
@@ -18,6 +17,7 @@ namespace _Project20_21.SailingShip.Scripts
         {
             _directionGenerator.Update(Time.deltaTime);
             _rotator.Rotation(Time.deltaTime, _directionGenerator.Direction);
+            
         }
     }
 }

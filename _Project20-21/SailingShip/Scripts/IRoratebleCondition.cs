@@ -2,6 +2,6 @@
 {
     public interface IRoratebleCondition
     {
-        
+        public bool IsComplite();
     }
 }
