@@ -9,6 +9,6 @@ namespace _Project20_21.SailingShip.Scripts
         [SerializeField] private TextMeshPro _text;
         
         private void Update()
-            =>_text.text = $"Wind Power - {_wind.Power.ToString("0.0")}";
+            =>_text.text = $"Wind Power  {_wind.Power.ToString("0.0")}";
     }
 }

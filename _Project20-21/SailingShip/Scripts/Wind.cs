@@ -33,12 +33,19 @@ namespace _Project20_21.SailingShip.Scripts
 
         private float CalculatePower()
         {
-            float angle = Vector3.Angle(transform.forward, _sail.transform.forward);
-
-            if (angle > _maxAngle)
-                return 0;
-            else
-                return 1 - angle/_maxAngle;
+            // float angle = Vector3.Angle(transform.forward, _sail.transform.forward);
+            //
+            // if (angle > _maxAngle)
+            //     return 0;
+            // else
+            //     return 1 - angle/_maxAngle;
+           
+            float dotProduct = Vector3.Dot(transform.forward, _sail.transform.forward);
+            
+            if(dotProduct < 0)
+                dotProduct = 0;
+            
+            return  dotProduct;
         }
     }
 }

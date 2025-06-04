@@ -8,8 +8,13 @@ namespace _Project20_21.SailingShip.Scripts
         [SerializeField] float _limitAngle;
 
         private float _currentAngle = 0;
-
+        
         protected override void Update()
+        {
+            
+        }
+
+        private void Rotate()
         {
             float selectedCoefficient = 4.1f;
 

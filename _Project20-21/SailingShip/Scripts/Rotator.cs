@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Project20_21.SailingShip.Scripts
@@ -7,7 +6,8 @@ namespace _Project20_21.SailingShip.Scripts
     {
         private Transform _source;
         private float _speed;
-
+        private float _limitAngle = 90f; 
+        
         public Rotator(Transform source, float speed)
         {
             _source = source;
@@ -26,13 +26,17 @@ namespace _Project20_21.SailingShip.Scripts
         public void RotateRight(float deltaTime)
         {
             Vector3 direction = _source.rotation.eulerAngles + Vector3.up;
-            Rotation(direction);
+            
+            if(direction.y > -_limitAngle && direction.y < _limitAngle)
+                Rotation(direction);
         }
 
         public void RotateLeft(float deltaTime)
         {
             Vector3 direction = _source.rotation.eulerAngles - Vector3.up;
-            Rotation( direction);
+            
+            if(direction.y > -_limitAngle && direction.y < _limitAngle)
+                Rotation( direction);
         }
     }
 }
