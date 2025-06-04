@@ -2,23 +2,30 @@ using UnityEngine;
 
 namespace _Project20_21.Explosion.Scripts
 {
-    public class Box : MonoBehaviour, ISelectable, IExploded
+    public class Box : MonoBehaviour, ISelectable
     {
         private Material _material;
-        public Rigidbody _rigidbody;
+        private Rigidbody _rigidbody;
         private BoxCollider _boxCollider;
-
+        private Mover _mover;
+        private Exploder _exploder;
+        private float _explosionRadius;
+        private LayerMask _boxLayerMask;
+        
         public bool IsSelected { get; private set; }
-        public Rigidbody Rigidbody => _rigidbody;
 
-        private void Awake()
+        public void Initialaze(Exploder exploder, float explosionRadius, LayerMask boxLayerMask)
         {
             _boxCollider = GetComponent<BoxCollider>();
             _rigidbody = GetComponent<Rigidbody>();
             _material = GetComponentInChildren<MeshRenderer>().material;
 
-            if (_material != null)
-                _material.color = Color.blue;
+            _exploder = exploder;
+            _explosionRadius = explosionRadius;
+            _boxLayerMask = boxLayerMask;
+            
+            _material.color = Color.blue;
+            _mover = new Mover(transform);
         }
 
         public void Select()
@@ -37,18 +44,19 @@ namespace _Project20_21.Explosion.Scripts
             _boxCollider.isTrigger = false;
         }
 
-        public void Move(Transform target)
+        public void Move(Vector3 position)
         {
-            if (target == null)
-            {
-                Debug.LogWarning("Target is null");
+            if (IsSelected == false)
                 return;
-            }
 
-            Vector3 offsetY = Vector3.up * 2;
+            Vector3 offsetY = position + Vector3.up * 2;
+            _mover.MoveTo(offsetY);
+        }
 
-            if (IsSelected)
-                transform.position = target.position + offsetY;
+        public void Explode()
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _explosionRadius, _boxLayerMask);
+            _exploder.Explode(transform.position, _explosionRadius, colliders);
         }
     }
 }
