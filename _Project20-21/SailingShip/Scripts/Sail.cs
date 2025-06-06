@@ -6,27 +6,19 @@ namespace _Project20_21.SailingShip.Scripts
     {
         [SerializeField] private Ship _ship;
         [SerializeField] float _limitAngle;
-
-        private float _currentAngle = 0;
+        [SerializeField] float _speed;
         
-        private RotatorWithButtonAndLimitAngle _rotator;
+        private RotatorWithButton _rotator;
         public Vector3 Direction => transform.forward;
 
         private void Awake()
         {
-            RotatorWithButtonAndLimitAngle _rotator = new RotatorWithButtonAndLimitAngle(
-                transform,
-                300,
-                KeyCode.A,
-                KeyCode.S,
-                90);
-            
-            
+            _rotator = new RotatorWithButton(transform, _speed, KeyCode.S, KeyCode.A, _limitAngle);
         }
 
         private  void Update()
         {
-            _rotator.Ratate(Vector3.up);
+           _rotator.Update();
         }
     }
 }

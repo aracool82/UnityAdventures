@@ -257,7 +257,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086b2ef7475a5b84d9d2645ee82fc5d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sail: {fileID: 1248821189}
+  _ship: {fileID: 1359015502}
+  _rotationSpeed: 300
+  _timeToChange: 3
+  _rangeAngle: 360
 --- !u!4 &172856441
 Transform:
   m_ObjectHideFlags: 0
@@ -1026,9 +1029,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf3cdf191bc4e9f84b1e6683919f026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 300
   _ship: {fileID: 1359015502}
   _limitAngle: 90
+  _speed: 300
 --- !u!1 &1359015500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,8 +1041,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1359015501}
-  - component: {fileID: 1359015502}
   - component: {fileID: 1359015503}
+  - component: {fileID: 1359015502}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -1077,9 +1080,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fff642c0cff4b46a1f9341d6e98cb21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 50
   _rigidbody: {fileID: 1359015503}
   _wind: {fileID: 172856440}
+  _sail: {fileID: 1248821189}
+  _speed: 10
 --- !u!54 &1359015503
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1100,7 +1104,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
