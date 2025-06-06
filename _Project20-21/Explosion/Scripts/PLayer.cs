@@ -7,16 +7,19 @@ namespace _Project20_21.Explosion.Scripts
         [SerializeField] private LayerMask _boxLayerMask;
         [SerializeField] private LayerMask _groundLayerMask;
 
-        private RayShooter _rayShooter;
+        private Selector _selector;
         private Mover _mover;
+        private RayShooter _rayShooter;
+        
         private Camera _camera;
         private MouseHandler _mouseHandler;
 
-        private ISelectable _selectable;
-
         private void Awake()
         {
+            _selector = new Selector(_boxLayerMask);
+            _mover = new Mover(_groundLayerMask);
             _rayShooter = new RayShooter();
+
             _mouseHandler = new MouseHandler();
             _camera = Camera.main;
         }
@@ -25,37 +28,18 @@ namespace _Project20_21.Explosion.Scripts
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            if (_mouseHandler.IsLeftButtonClickDown &&
-                _rayShooter.Shoot(ray.origin, ray.direction, out RaycastHit hit, _boxLayerMask))
-            {
-                if (hit.collider.TryGetComponent(out ISelectable selectable))
-                {
-                    _selectable = selectable;
-                    _selectable.Select();
-                }
-            }
-
-            if (_mouseHandler.IsLeftButtonClick &&
-                _rayShooter.Shoot(ray.origin, ray.direction, out hit, _groundLayerMask))
-                if (IsSelected())
-                    _selectable.Move(hit.point);
+            if (_mouseHandler.IsLeftButtonClickDown)
+                _selector.Select(ray.origin, ray.direction);
 
             if (_mouseHandler.IsLeftButtonClickUp)
-            {
-                if (IsSelected())
-                {
-                    _selectable.Deselect();
-                    _selectable = null;
-                }
-            }
+                _selector.ResetSeleceble();
+            
+            if (_mouseHandler.IsLeftButtonClick && _selector.HasSelecteble)
+                _mover.TryMove(ray.origin, ray.direction,_selector.TransformSelectable);
 
-            if (_mouseHandler.IsRightButtonClickDown &&
-                _rayShooter.Shoot(ray.origin, ray.direction, out hit, _boxLayerMask))
+            if (_mouseHandler.IsRightButtonClickDown && _rayShooter.HasShootResult(ray.origin, ray.direction,out RaycastHit hit,_boxLayerMask))
                 if (hit.collider.TryGetComponent(out IExploded exploded))
                     exploded.Explode();
         }
-
-        private bool IsSelected()
-            => _selectable != null;
     }
 }

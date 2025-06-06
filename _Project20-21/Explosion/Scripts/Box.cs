@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Project20_21.Explosion.Scripts
 {
-    public class Box : MonoBehaviour, ISelectable
+    public class Box : MonoBehaviour, ISelectable,IExploded
     {
         private Material _material;
         private Rigidbody _rigidbody;
@@ -12,8 +12,6 @@ namespace _Project20_21.Explosion.Scripts
         private float _explosionRadius;
         private LayerMask _boxLayerMask;
         
-        public bool IsSelected { get; private set; }
-
         public void Initialaze(Exploder exploder, float explosionRadius, LayerMask boxLayerMask)
         {
             _boxCollider = GetComponent<BoxCollider>();
@@ -25,12 +23,10 @@ namespace _Project20_21.Explosion.Scripts
             _boxLayerMask = boxLayerMask;
             
             _material.color = Color.blue;
-            _mover = new Mover(transform);
         }
 
         public void Select()
         {
-            IsSelected = true;
             _material.color = Color.yellow;
             _rigidbody.useGravity = false;
             _boxCollider.isTrigger = true;
@@ -38,19 +34,9 @@ namespace _Project20_21.Explosion.Scripts
 
         public void Deselect()
         {
-            IsSelected = false;
             _material.color = Color.blue;
             _rigidbody.useGravity = true;
             _boxCollider.isTrigger = false;
-        }
-
-        public void Move(Vector3 position)
-        {
-            if (IsSelected == false)
-                return;
-
-            Vector3 offsetY = position + Vector3.up * 2;
-            _mover.MoveTo(offsetY);
         }
 
         public void Explode()

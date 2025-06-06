@@ -2,24 +2,24 @@
 
 namespace _Project20_21.Explosion.Scripts
 {
-    public class Exploder : MonoBehaviour
+    public class Exploder
     {
-        [SerializeField] private ParticleSystem _boomEffectPrefab;
-        [SerializeField] private float _power;
-        [SerializeField] private float _upwardsModifier;
-
         private ParticleSystem _boomEffect;
+        private float _power;
+        private float _upwardsModifier;
 
-        private void Awake()
+        public  Exploder(ParticleSystem boomEffect, float power, float upwardsModifier)
         {
-            _boomEffect = Instantiate(_boomEffectPrefab, Vector3.zero, Quaternion.identity, null);
+            _boomEffect = boomEffect;
+            _power = power;
+            _upwardsModifier = upwardsModifier;
         }
 
         public void Explode(Vector3 point, float radius, Collider[] colliders)
         {
             if (colliders.Length == 0)
                 return;
-
+            
             foreach (Collider collider in colliders)
                 if (collider.TryGetComponent(out Rigidbody rigidbody))
                     rigidbody.AddExplosionForce(_power, point, radius, _upwardsModifier, ForceMode.Impulse);

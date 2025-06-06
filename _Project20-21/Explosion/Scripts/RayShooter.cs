@@ -4,7 +4,7 @@ namespace _Project20_21.Explosion.Scripts
 {
     public class RayShooter
     {
-        public bool Shoot(Vector3 origin, Vector3 direction,out RaycastHit raycastHit, LayerMask layerMask)
+        public bool HasShootResult(Vector3 origin, Vector3 direction,out RaycastHit raycastHit, LayerMask layerMask)
         {
             Ray ray = new Ray(origin, direction);
             raycastHit = default;

@@ -4,8 +4,11 @@ namespace _Project20_21.Explosion.Scripts
 {
     public class Spawner : MonoBehaviour
     {
-        [SerializeField] private Exploder _exploder;
+        [SerializeField] private ParticleSystem _boomEffectPrefab;
+        [SerializeField] private float _explosionPower;
         [SerializeField] private float _explosionRadius;
+        [SerializeField] private float _explosionUpwardModifier;
+        
         [SerializeField] private LayerMask _boxLayerMask;
 
         [SerializeField] private Box _boxPrefab;
@@ -13,9 +16,14 @@ namespace _Project20_21.Explosion.Scripts
         [SerializeField] private float _horizontalX;
         [SerializeField] private float _verticalZ;
 
+         private Exploder _exploder;
 
-        private void Awake()
-            => CreateBoxes();
+         private void Awake()
+         {
+             ParticleSystem boomEffect = Instantiate(_boomEffectPrefab,transform.position, Quaternion.identity, null);
+             _exploder = new Exploder(boomEffect, _explosionPower,_explosionUpwardModifier);
+             CreateBoxes();
+         }
 
         private void CreateBoxes()
         {

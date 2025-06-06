@@ -450,7 +450,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 817835825}
-  - component: {fileID: 817835824}
   m_Layer: 0
   m_Name: Exploder
   m_TagString: Untagged
@@ -458,22 +457,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &817835824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 817835823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec001f0c87c74f7e8f99170d1c117ab5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _boomEffectPrefab: {fileID: 2780150881134111389, guid: 7f252e0a6506aff46bdb50abc64030f7,
-    type: 3}
-  _power: 10
-  _upwardsModifier: 1
 --- !u!4 &817835825
 Transform:
   m_ObjectHideFlags: 0
@@ -670,8 +653,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db912b31576a0164294d7fd537855870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _exploder: {fileID: 817835824}
+  _boomEffectPrefab: {fileID: 2780150881134111389, guid: 7f252e0a6506aff46bdb50abc64030f7,
+    type: 3}
+  _explosionPower: 10
   _explosionRadius: 5
+  _explosionUpwardModifier: 1
   _boxLayerMask:
     serializedVersion: 2
     m_Bits: 128
