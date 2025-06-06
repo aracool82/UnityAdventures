@@ -2,36 +2,44 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] private Quaternion _rotation;
-    [SerializeField] private Vector3 _rotationEuler;
     [SerializeField] private float _angle = 90;
 
-    private Quaternion _rightLimit = Quaternion.Euler(0, 90, 0);
-    private Quaternion _leftLimit = Quaternion.Euler(0, -90, 0);
+    private Quaternion _rightLimit;
+    private Quaternion _leftLimit;
 
-    private void Start()
+    private void Awake()
     {
+        _rightLimit = Quaternion.Euler(0, _angle, 0);
+        _leftLimit = Quaternion.Euler(0, -_angle, 0);
     }
 
     private void Update()
     {
-        _rotation = transform.rotation;
-        _rotationEuler = transform.rotation.eulerAngles;
-
-
+       
+        
         if (Input.GetKey(KeyCode.A))
         {
-            Vector3 newRotationEuler = transform.rotation.eulerAngles + Vector3.up;
-            transform.rotation = Quaternion.Euler(newRotationEuler);
-
-            Debug.Log($"transY:{transform.rotation.eulerAngles.y}");
+            transform.rotation = _leftLimit;
+            Debug.Log(transform.rotation.eulerAngles);
+            // if (Mathf.Round(Vector3.Angle(Vector3.forward, transform.forward)) <= _angle)
+            //     Rotate(-1);
+            // else
+            //     transform.rotation = _leftLimit;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.S))
         {
-            Vector3 newRotationEuler = transform.rotation.eulerAngles - Vector3.up;
-            transform.rotation = Quaternion.Euler(newRotationEuler);
-            Debug.Log($"transY:{transform.rotation.eulerAngles.y}");
+            transform.rotation = _rightLimit;
+            Debug.Log(transform.rotation.eulerAngles);
+            // if (Mathf.Round(Vector3.Angle(Vector3.forward, transform.forward)) <= _angle)
+            //     Rotate(1);
+            // else
+            //     transform.rotation = _rightLimit;
         }
+    }
+
+    private void Rotate(float angle)
+    {
+        transform.Rotate(Vector3.up, angle);
     }
 }

@@ -2,26 +2,32 @@ using UnityEngine;
 
 namespace _Project20_21.SailingShip.Scripts
 {
-    public class Ship : RotateControl
+    public class Ship : MonoBehaviour
     {
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Wind _wind;
+        [SerializeField] private Sail _sail;
+        
+        //public Vector3 SailDirection => _sail.Direction;
+        
+        private RotatorWithButton _rotator;
 
-        protected override void Update()
+        private void Awake()
         {
-            if (Input.GetKey(KeyCode.Q))
-                _rotator.RotateLeft(Time.deltaTime);
+            _rotator = new RotatorWithButton(transform,100,KeyCode.W,KeyCode.Q);
+        }
 
-            if (Input.GetKey(KeyCode.W))
-                _rotator.RotateRight(Time.deltaTime);
+        private  void Update()
+        {
+            _rotator.Ratate(Vector3.up);
         }
 
         private void FixedUpdate()
         {
-            if (_wind.Power == 0)
-                _rigidbody.velocity = Vector3.zero;
-            else
-                _rigidbody.AddForce(transform.forward * _wind.Power, ForceMode.Force);
+            // if (_wind.Power == 0)
+            //     _rigidbody.velocity = Vector3.zero;
+            // else
+            //     _rigidbody.AddForce(transform.forward * _wind.Power, ForceMode.Force);
         }
     }
 }

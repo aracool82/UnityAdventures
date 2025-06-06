@@ -2,33 +2,31 @@ using UnityEngine;
 
 namespace _Project20_21.SailingShip.Scripts
 {
-    public class Sail : RotateControl
+    public class Sail : MonoBehaviour
     {
         [SerializeField] private Ship _ship;
         [SerializeField] float _limitAngle;
 
         private float _currentAngle = 0;
         
-        protected override void Update()
+        private RotatorWithButtonAndLimitAngle _rotator;
+        public Vector3 Direction => transform.forward;
+
+        private void Awake()
         {
+            RotatorWithButtonAndLimitAngle _rotator = new RotatorWithButtonAndLimitAngle(
+                transform,
+                300,
+                KeyCode.A,
+                KeyCode.S,
+                90);
+            
             
         }
 
-        private void Rotate()
+        private  void Update()
         {
-            float selectedCoefficient = 4.1f;
-
-            if (Input.GetKey(KeyCode.A) && _currentAngle < _limitAngle)
-            {
-                _rotator.RotateLeft(Time.deltaTime);
-                _currentAngle += Time.deltaTime * _rotator.RotateSpeed / selectedCoefficient; 
-            }
-
-            if (Input.GetKey(KeyCode.S) && _currentAngle > -_limitAngle)
-            {
-                _rotator.RotateRight(Time.deltaTime);
-                _currentAngle -= Time.deltaTime * _rotator.RotateSpeed / selectedCoefficient;
-            }
+            _rotator.Ratate(Vector3.up);
         }
     }
 }

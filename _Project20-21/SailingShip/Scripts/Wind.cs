@@ -4,48 +4,27 @@ namespace _Project20_21.SailingShip.Scripts
 {
     public class Wind : MonoBehaviour
     {
-        [SerializeField] private Sail _sail;
-        
-        private DirectionGenerator _directionGenerator;
-        private Rotator _rotator;
-        
-        private float _maxAngle = 90f;
+        [SerializeField] private Ship _ship;
 
-        public float Power => CalculatePower();
+        private DirectionGenerator _directionGenerator;
+        private RotatorBase _rotatorBase;
+        private Follower _follower;
+
+        //public float Power => Mathf.Clamp01(Vector3.Dot(transform.forward, _ship.SailDirection));
 
         private void Awake()
         {
             _directionGenerator = new DirectionGenerator(2, 360);
-            _rotator = new Rotator(transform, 500);
+            _rotatorBase = new RotatorBase(transform, 500);
+            _follower = new Follower(transform);
         }
 
         private void Update()
         {
-            _directionGenerator.Update(Time.deltaTime);
-            _rotator.Rotation(_directionGenerator.Direction);
-            
-            Vector3 position = transform.position;
-            position.x = _sail.transform.position.x;
-            position.y = transform.position.y;
-            position.z = _sail.transform.position.z;
-            transform.position = position;
-        }
-
-        private float CalculatePower()
-        {
-            // float angle = Vector3.Angle(transform.forward, _sail.transform.forward);
-            //
-            // if (angle > _maxAngle)
-            //     return 0;
-            // else
-            //     return 1 - angle/_maxAngle;
+            _follower.FollowTo(_ship.transform, new Vector3(0, 3, 0));
            
-            float dotProduct = Vector3.Dot(transform.forward, _sail.transform.forward);
-            
-            if(dotProduct < 0)
-                dotProduct = 0;
-            
-            return  dotProduct;
+            _directionGenerator.Update(Time.deltaTime);
+            _rotatorBase.Ratate(_directionGenerator.Direction);
         }
     }
 }
