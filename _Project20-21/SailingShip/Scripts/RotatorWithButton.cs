@@ -47,7 +47,7 @@ namespace _Project20_21.SailingShip.Scripts
             if(_limitAngle > 0 && _limitAngle < FullTurn)
                 _currentRotationY = Mathf.Clamp(_currentRotationY, -_limitAngle, _limitAngle);
             
-            _source.rotation = Quaternion.Euler(0, _currentRotationY, 0);
+            _source.localRotation = Quaternion.Euler(0, _currentRotationY, 0);
         }
     }
 }
