@@ -1083,7 +1083,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 1359015503}
   _wind: {fileID: 172856440}
   _sail: {fileID: 1248821189}
-  _speed: 10
+  _speed: 0.5
 --- !u!54 &1359015503
 Rigidbody:
   m_ObjectHideFlags: 0
