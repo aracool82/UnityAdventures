@@ -2,35 +2,35 @@
 
 namespace _Project22_23.Scripts
 {
-    public abstract class DirectionMover
+    public class DirectionMover
     {
-        protected CharacterController CharacterController;
+        private CharacterController _characterController;
         private float _movementSpeed;
         private Vector3 _direction;
 
         public DirectionMover(CharacterController characterController, float movementSpeed)
         {
-            CharacterController = characterController;
+            _characterController = characterController;
             _movementSpeed = movementSpeed;
         }
 
-        public Vector3 Velocity {get; private set; }
-        public Vector3 Direction => _direction;
-        
-        protected void SetDirection(Vector3 direction)
+        public Vector3 Velocity { get; private set; }
+        public bool IsMoving => _direction != Vector3.zero;
+
+        public void SetDirection(Vector3 direction)
             => _direction = direction;
 
         public virtual void Update(float deltaTime)
         {
-            if (_direction== Vector3.zero)
+            if (_direction == Vector3.zero)
             {
                 Velocity = Vector3.zero;
                 return;
             }
 
-            
             Velocity = _direction.normalized * _movementSpeed;
-            CharacterController.Move(Velocity * deltaTime);
+            _characterController.Move(Velocity * deltaTime);
+            Debug.Log(_characterController.transform.position);
         }
     }
-}
+} 

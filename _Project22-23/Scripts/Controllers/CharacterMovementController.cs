@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
 namespace _Project22_23.Scripts
 {
-    public class PlayerController : Controller
+    public class CharacterMovementController : Controller
     {
         private const int LeftMouseButton = 0;
         
-        private Player _player;
+        private Character _character;
         private ClickGroundHandler _clickGroundHandler;
         private LayerMask _groundLayerMask;
         private Camera _camera;
         
-        public PlayerController(Player player,LayerMask groundLayerMask)
+        public CharacterMovementController(Character character,LayerMask groundLayerMask)
         {
-            _player = player;
+            _character = character;
             _groundLayerMask = groundLayerMask;
             _clickGroundHandler = new ClickGroundHandler(groundLayerMask);
             _camera = Camera.main;
@@ -22,14 +21,14 @@ namespace _Project22_23.Scripts
 
         private bool IsPressedLeftMouseButton()=> Input.GetMouseButtonDown(LeftMouseButton);
         
-        protected override void ApdateLogic(float deltaTime)
+        protected override void UpdateLogic(float deltaTime)
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (IsPressedLeftMouseButton() &&
                 _clickGroundHandler.TryGetPoint(ray.origin, ray.direction, _groundLayerMask, out Vector3 endPoint))
-                if(NavMeshUtills.TryGetPath(_player.Position,endPoint,Filter,Path))
-                    _player.SetPath(Path);
+                if(NavMeshUtills.TryGetPath(_character.Position,endPoint,Filter,Path))
+                    _character.SetPath(Path);
         }
     }
 }

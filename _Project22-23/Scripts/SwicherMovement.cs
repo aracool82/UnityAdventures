@@ -4,7 +4,7 @@ namespace _Project22_23.Scripts
 {
     public class SwicherMovement : MonoBehaviour
     {
-        [SerializeField] private Player _player;
+        [SerializeField] private Character character;
         [SerializeField] private LayerMask _groundLayerMask;
         [SerializeField] private float _forAiRadius = 5;
         
@@ -18,7 +18,7 @@ namespace _Project22_23.Scripts
 
         private void Update()
         {
-            if (_player.IsMoving == false)
+            if (character.IsMoving == false)
             {
                 _timer += Time.deltaTime;
                 
@@ -39,14 +39,14 @@ namespace _Project22_23.Scripts
 
         private void SetDefaultController()
         {
-            _movementController = new PlayerController(_player, _groundLayerMask);
+            _movementController = new CharacterMovementController(character, _groundLayerMask);
             _movementController.Enable();
             Debug.Log("Player Enabled");
         }
         
         private void SetAIController()
         {
-            _movementController = new AIController(_player, _forAiRadius);
+            _movementController = new PatrolController(character, _forAiRadius);
             _movementController.Enable();
             Debug.Log("Ai Enabled");
         }

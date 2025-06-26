@@ -2,7 +2,7 @@
 
 namespace _Project22_23.Scripts
 {
-    public class Health : IDamageble
+    public class Health 
     {
         public readonly float MaxHealth;
         

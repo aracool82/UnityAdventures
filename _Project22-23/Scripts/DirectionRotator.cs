@@ -2,19 +2,19 @@ using UnityEngine;
 
 namespace _Project22_23.Scripts
 {
-    public class Rotator
+    public class DirectionRotator
     {
         private Transform _source;
         private float _rotationSpeed;
         private Vector3 _currentDirection;
 
-        public Rotator(Transform source, float rotationSpeed)
+        public DirectionRotator(Transform source, float rotationSpeed)
         {
             _source = source;
             _rotationSpeed = rotationSpeed;
         }
 
-        public void SetInputDirection(Vector3 direction)
+        public void SetDirection(Vector3 direction)
             => _currentDirection = direction;
 
         public void Update(float deltaTime)

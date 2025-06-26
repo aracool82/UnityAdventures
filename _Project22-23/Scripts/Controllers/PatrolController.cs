@@ -2,21 +2,21 @@
 
 namespace _Project22_23.Scripts
 {
-    public class AIController : Controller
+    public class PatrolController : Controller
     {
-        private Player _player;
+        private Character _character;
         private float _radius;
         private float _timer;
         private float _waitTimerToChangePath;
 
-        public AIController(Player player, float radius)
+        public PatrolController(Character character, float radius)
         {
-            _player = player;
+            _character = character;
             _radius = radius;
             _waitTimerToChangePath = 2f;
         }
 
-        protected override void ApdateLogic(float deltaTime)
+        protected override void UpdateLogic(float deltaTime)
         {
             _timer += deltaTime;
             
@@ -30,17 +30,17 @@ namespace _Project22_23.Scripts
                 {
                     tryCouter--;
                     point = GetRandomPointInRadius();
-                } while (NavMeshUtills.TryGetPath(_player.Position, point, Filter, Path) == false && tryCouter != 0);
+                } while (NavMeshUtills.TryGetPath(_character.Position, point, Filter, Path) == false && tryCouter != 0);
 
                 if (tryCouter == 0)
                     Debug.Log("No path found.You can increase tryCouter");
                 else
-                    _player.SetPath(Path);
+                    _character.SetPath(Path);
             }
         }
 
         private Vector3 GetRandomPointInRadius()
-            => _player.Position +
+            => _character.Position +
                new Vector3(Random.Range(-_radius, _radius), 1, Random.Range(-_radius, _radius));
     }
 }

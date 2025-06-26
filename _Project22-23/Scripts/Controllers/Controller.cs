@@ -27,9 +27,9 @@ namespace _Project22_23.Scripts
             if(_isEnable == false)
                 return;
 
-            ApdateLogic(deltaTime);
+            UpdateLogic(deltaTime);
         }
 
-        protected abstract void ApdateLogic(float deltaTime);
+        protected abstract void UpdateLogic(float deltaTime);
     }
 }

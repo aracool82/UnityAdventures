@@ -10,51 +10,28 @@ namespace _Project22_23.Scripts
         [SerializeField] private SphereCollider _collider;
 
         private float _timer;
-        private bool _isStartTimer;
-        private IDamageble _damageble;
+        private bool _isRunTimer;
         private float _multiplier = 2;
-        
-        public bool IsDetonated => _timer >= _ditonationTime;
-        
+
         private void Awake()
-        {
-            _collider.radius = _ditonationRadius * _multiplier;
-        }
+            =>_collider.radius = _ditonationRadius * _multiplier;
 
         private void Update()
         {
-            if (_isStartTimer == false)
+            if (_isRunTimer == false)
                 return;
 
             _timer += Time.deltaTime;
 
             if (_timer >= _ditonationTime)
-            {
-                _timer = 0;
                 Detonate();
-            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out IDamageble damageable))
-            {
                 if (damageable.IsAlive)
-                {
-                    _isStartTimer = true;
-                    _damageble = damageable;
-                }
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.TryGetComponent(out IDamageble damageable))
-            {
-                _isStartTimer = false;
-                _damageble = null;
-                _timer = 0;
-            }
+                    _isRunTimer = true;
         }
 
         private void OnDrawGizmos()
@@ -66,16 +43,15 @@ namespace _Project22_23.Scripts
             }
         }
 
-        private void OnDestroy()
-            => _damageble = null;
-
         private void Detonate()
         {
-            if (_damageble != null && _damageble.IsAlive)
-            {
-                _damageble.TakeDamage(_damage);
-                Destroy(gameObject);
-            }
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _ditonationRadius);
+
+            foreach (Collider collider in colliders)
+                if(collider.TryGetComponent(out IDamageble damageable))
+                    damageable.TakeDamage(_damage);
+            
+            Destroy(gameObject);
         }
     }
 }
