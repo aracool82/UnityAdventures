@@ -1,9 +1,10 @@
+//using _Project22_23.Scripts.NewNavMeshScripts.Movement;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace _Project22_23.Scripts
 {
-    [RequireComponent(typeof(CharacterController))]
+    /*[RequireComponent(typeof(CharacterController))]
     public class Character : MonoBehaviour, IDamageble
     {
         [SerializeField] private float _moveSpeed = 5f;
@@ -54,5 +55,5 @@ namespace _Project22_23.Scripts
             else
                 _characterView.PlayDeadAnimation();
         }
-    }
+    }*/
 }

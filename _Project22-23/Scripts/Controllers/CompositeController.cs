@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace _Project22_23.Scripts
 {
-    public class CompositeController
+    /*public class CompositeController
     {
         private DirectionMover _directionMover;
         private DirectionRotator _directionRotator;
@@ -83,5 +83,5 @@ namespace _Project22_23.Scripts
 
         private bool IsReachedPoint()
             => (Vector3.Distance(_characterTransform.position, _currentPoint) <= _minDistance);
-    }
+    }*/
 }

@@ -2,7 +2,7 @@
 
 namespace _Project22_23.Scripts
 {
-    public class PatrolController : Controller
+    /*public class PatrolController : Controller
     {
         private Character _character;
         private float _radius;
@@ -42,5 +42,5 @@ namespace _Project22_23.Scripts
         private Vector3 GetRandomPointInRadius()
             => _character.Position +
                new Vector3(Random.Range(-_radius, _radius), 1, Random.Range(-_radius, _radius));
-    }
+    }*/
 }

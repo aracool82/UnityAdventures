@@ -2,7 +2,7 @@
 
 namespace _Project22_23.Scripts
 {
-    public class DirectionMover
+    /*public class DirectionMover
     {
         private CharacterController _characterController;
         private float _movementSpeed;
@@ -32,5 +32,5 @@ namespace _Project22_23.Scripts
             _characterController.Move(Velocity * deltaTime);
             Debug.Log(_characterController.transform.position);
         }
-    }
+    }*/
 } 

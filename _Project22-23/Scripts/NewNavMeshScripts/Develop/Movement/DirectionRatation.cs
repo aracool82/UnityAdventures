@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Project22_23.Scripts
+namespace _Project22_23.Scripts.NewNavMeshScripts
 {
     public class DirectionRotator
     {
@@ -14,19 +14,19 @@ namespace _Project22_23.Scripts
             _rotationSpeed = rotationSpeed;
         }
 
-        public Quaternion CurrentRotation { get; private set; }
+        public Quaternion CurrentRotation =>_source.rotation;
 
         public void SetDirection(Vector3 direction)
             => _currentDirection = direction;
 
-        public void Update(float deltaTime)
+        public virtual void Update(float deltaTime)
         {
             if (_currentDirection == Vector3.zero)
                 return;
 
             float step = _rotationSpeed * deltaTime;
-            CurrentRotation = Quaternion.LookRotation(_currentDirection);
-            _source.rotation = Quaternion.RotateTowards(_source.rotation, CurrentRotation, step);
+            Quaternion lookRotation = Quaternion.LookRotation(_currentDirection);
+            _source.rotation = Quaternion.RotateTowards(_source.rotation, lookRotation, step);
         }
     }
 }

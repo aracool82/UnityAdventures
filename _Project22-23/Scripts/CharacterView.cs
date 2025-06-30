@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project22_23.Scripts
 {
-    public class CharacterView : MonoBehaviour
+    /*public class CharacterView : MonoBehaviour
     {
         private const float FullPersent = 100f;
         private readonly int KeyIsRun = Animator.StringToHash("IsRun");
@@ -52,5 +52,5 @@ namespace _Project22_23.Scripts
 
         private float GetPersentOfDamage()
             => Mathf.Round(character.Health / (character.MaxHealth / FullPersent));
-    }
+    }*/
 }

@@ -2,7 +2,7 @@
 
 namespace _Project22_23.Scripts
 {
-    public class SwicherMovement : MonoBehaviour
+    /*public class SwicherMovement : MonoBehaviour
     {
         [SerializeField] private Character character;
         [SerializeField] private LayerMask _groundLayerMask;
@@ -50,5 +50,5 @@ namespace _Project22_23.Scripts
             _movementController.Enable();
             Debug.Log("Ai Enabled");
         }
-    }
+    }*/
 }

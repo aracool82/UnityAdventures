@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+/*
 namespace _Project22_23.Scripts
 {
     public class CharacterMovementController : Controller
@@ -32,3 +32,4 @@ namespace _Project22_23.Scripts
         }
     }
 }
+*/
