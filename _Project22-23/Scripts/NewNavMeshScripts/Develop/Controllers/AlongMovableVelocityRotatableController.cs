@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace _Project22_23.Scripts.NewNavMeshScripts
 {
     public class AlongMovableVelocityRotatableController : Controller
@@ -13,7 +15,10 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
 
         protected override void UpdateLogic(float deltaTime)
         {
-            _rotatable.SetRotationDirection(_movable.CurrentVelocity);
+            if (_movable.CurrentVelocity != Vector3.zero)
+                _rotatable.SetRotationDirection(_movable.CurrentVelocity);
+            else
+                _rotatable.SetRotationDirection(Vector3.zero);
         }
     }
 }

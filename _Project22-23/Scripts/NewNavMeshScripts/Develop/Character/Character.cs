@@ -13,7 +13,7 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
         public bool IsMoved => _mover.IsMoved;
         public Vector3 CurrentVelocity => _mover.CurrentVelocity;
         public Quaternion CurrentRotation => _rotator.CurrentRotation;
-
+        public Transform Transform => transform;
         private void Awake()
         {
             _mover = new DirectionMover(GetComponent<CharacterController>(), _moveSpeed);

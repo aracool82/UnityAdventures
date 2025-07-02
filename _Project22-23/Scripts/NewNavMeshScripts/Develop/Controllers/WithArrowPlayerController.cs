@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace _Project22_23.Scripts.NewNavMeshScripts
 {
-    public class PlayerController : Controller
+    public class WithArrowPlayerController : Controller
     {
         private Character _character;
 
-        public PlayerController(Character character)
+        public WithArrowPlayerController(Character character)
            => _character = character;
 
         protected override void UpdateLogic(float deltaTime)

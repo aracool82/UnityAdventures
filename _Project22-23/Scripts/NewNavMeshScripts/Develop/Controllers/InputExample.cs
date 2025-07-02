@@ -5,30 +5,25 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
     public class InputExample : MonoBehaviour
     {
         [SerializeField] private Character _character;
-        [SerializeField] private Tower _tower;
+        [SerializeField] private LayerMask _groundLayerMask;
 
         private Controller _playerController;
-        private Controller _towerController;
 
         private void Awake()
         {
+            ClickGroundHandler clickGroundHandler = new ClickGroundHandler(_groundLayerMask,_character.transform);
+            
             // _playerController = new CompositeController(
-            //     new PlayerDirectionalMovableController(_character),
-            //     new PlayerDirectionalRotatableController(_character));
+            //     new WithMousePlayerController(_character, clickGroundHandler),
+            //     new AlongMovableVelocityRotatableController(_character,_character));
 
-            _playerController = new CompositeController(
-                new RandomAiDiretionalMovableController(2,_character),
-                new AlongMovableVelocityRotatableController(_character,_character));
+            _playerController = new CompositeController(new WithMousePlayerController(_character, clickGroundHandler));
             
             _playerController.Enable();
-
-            _towerController = new PlayerDirectionalRotatableController(_tower);
-            _towerController.Enable();
         }
 
         private void Update()
         {
-            _towerController.Update(Time.deltaTime);
             _playerController.Update(Time.deltaTime);
         }
     }
