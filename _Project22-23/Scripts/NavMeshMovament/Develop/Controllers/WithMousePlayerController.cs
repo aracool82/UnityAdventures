@@ -8,19 +8,19 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
         private const float MinDistanceToTarget = 0.1f;
         private const int LeftMouseButton = 0;
 
-        private Character _character;
+        private IDirectionalMovable _movable;
         private ClickGroundHandler _clickGroundHandler;
         private Camera _camera;
         private Vector3 _targetPosition;
         private Vector3 _direction;
         private Queue<Vector3> _path;
 
-        public WithMousePlayerController(Character character, ClickGroundHandler clickGroundHandler)
+        public WithMousePlayerController(IDirectionalMovable movable, ClickGroundHandler clickGroundHandler)
         {
-            _character = character;
+            _movable = movable;
             _clickGroundHandler = clickGroundHandler;
             _camera = Camera.main;
-            _targetPosition = _character.Transform.position;
+            _targetPosition = _movable.Transform.position;
             _path = new Queue<Vector3>();
         }
 
@@ -46,7 +46,7 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
                 }
             }
 
-            _character.SetMoveDirection(_direction);
+            _movable.SetMoveDirection(_direction);
         }
 
         private void SetPath(List<Vector3> path)
@@ -63,9 +63,9 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
             => _path.Dequeue();
 
         private Vector3 GetDirection(Vector3 target)
-            => (target - _character.Transform.position).normalized;
+            => (target - _movable.Transform.position).normalized;
 
         private bool IsReachedTarget(Vector3 target)
-            => Vector3.Distance(_character.Transform.position, target) <= MinDistanceToTarget;
+            => Vector3.Distance(_movable.Transform.position, target) <= MinDistanceToTarget;
     }
 }

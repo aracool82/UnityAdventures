@@ -17,8 +17,6 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
         {
             if (_movable.CurrentVelocity != Vector3.zero)
                 _rotatable.SetRotationDirection(_movable.CurrentVelocity);
-            else
-                _rotatable.SetRotationDirection(Vector3.zero);
         }
     }
 }

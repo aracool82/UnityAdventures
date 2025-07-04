@@ -2,17 +2,17 @@
 {
     public abstract class Controller
     {
-        private bool _isEnabled;
+        public bool IsEnabled { get;private set; }
 
         public virtual void Enable() 
-            => _isEnabled = true;
+            => IsEnabled = true;
         
         public virtual void Disable()
-            => _isEnabled = false;
+            => IsEnabled = false;
 
         public void Update(float deltaTime)
         {
-            if(_isEnabled == false)
+            if(IsEnabled == false)
                 return;
 
             UpdateLogic(deltaTime);

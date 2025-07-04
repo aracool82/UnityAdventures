@@ -15,7 +15,6 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
         }
 
         public Vector3 CurrentVelocity { get; private set; }
-        public bool IsMoved => _direction != Vector3.zero;
 
         public void SetDirection(Vector3 direction)
             => _direction = direction;

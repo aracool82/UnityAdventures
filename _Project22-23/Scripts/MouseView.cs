@@ -61,7 +61,7 @@ namespace _Project22_23.Scripts
             {
                 Gizmos.color = Color.red;
                 
-                if(_path.Count > 1)
+                if(_path != null)
                     foreach (Vector3 position in _path)
                         Gizmos.DrawSphere(position, 0.2f);                        
             }
