@@ -2,8 +2,10 @@ using UnityEngine;
 
 namespace _Project22_23.Scripts.NewNavMeshScripts
 {
-    public class InputExample : MonoBehaviour
+    public class MovementSwitcher : MonoBehaviour
     {
+        private const int LeftMouseButton = 0;
+        
         [SerializeField] private Character _character;
         [SerializeField] private LayerMask _groundLayerMask;
         [SerializeField] private float _timeToChangeController;
@@ -37,7 +39,7 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(LeftMouseButton))
             {
                 _timer = 0;
                 _playerController.Enable();
