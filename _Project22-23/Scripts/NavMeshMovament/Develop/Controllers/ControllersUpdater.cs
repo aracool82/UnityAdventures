@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Project22_23.Scripts.NewNavMeshScripts
 {
-    public class MovementSwitcher : MonoBehaviour
+    public class ControllersUpdater : MonoBehaviour
     {
         [SerializeField] private Character _character;
         [SerializeField] private LayerMask _groundLayerMask;
