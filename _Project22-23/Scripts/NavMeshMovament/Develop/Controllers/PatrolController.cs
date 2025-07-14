@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace _Project22_23.Scripts.NewNavMeshScripts
 {
-    public class PatrolPlayerController : Controller
+    public class PatrolController : Controller
     {
         private const float MinDistanceToTarget = 0.1f;
 
@@ -20,7 +20,7 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
 
         private float _timer;
 
-        public PatrolPlayerController(IDirectionalMovable movable, float timeToChangePoint, float radius)
+        public PatrolController(IDirectionalMovable movable, float timeToChangePoint, float radius)
         {
             _movable = movable;
             _timeToChangePoint = timeToChangePoint;
@@ -64,7 +64,9 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
             }
 
             if (IsReachedTarget(_targetPosition) == false)
+            {
                 _direction = GetDirection(_targetPosition);
+            }
             else
             {
                 if (_patrolPath.Count > 0)
