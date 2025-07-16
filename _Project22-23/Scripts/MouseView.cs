@@ -12,13 +12,14 @@ namespace _Project22_23.Scripts
 
         private MeshRenderer _meshRenderer;
         private bool _isVisible;
-        private float _timer;
         private ClickGroundHandler _clickGroundHandler;
         private Camera _camera;
         private List<Vector3> _path;
+        private Vector3 _currentPosition;
         
         private bool IsLeftMouseButtonClick => Input.GetMouseButtonDown(LeftMouseButton);
-
+        private bool IsChangePosition => _currentPosition != transform.position;
+        
         private void Awake()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
@@ -26,6 +27,7 @@ namespace _Project22_23.Scripts
             _camera = Camera.main;
             _isVisible = false;
             _path = new List<Vector3>();
+            _currentPosition = transform.position;
         }
 
         private void Update()
@@ -35,25 +37,22 @@ namespace _Project22_23.Scripts
             if (IsLeftMouseButtonClick && _clickGroundHandler.TryGetPath(ray, out List<Vector3> path))
             {
                 _path = path;
-                _timer = 0;
                 _isVisible = true;
                 int lastIndex = path.Count - 1;
                 transform.position = path[lastIndex];
             }
 
-            if (_isVisible)
+            if (IsChangePosition)
             {
-                _timer += Time.deltaTime;
-
-                if (_timer >= _visibleTime)
-                {
-                    _timer = 0;
-                    _isVisible = false;
-                }
+                _isVisible = true;
+                _currentPosition = transform.position;
             }
 
             _meshRenderer.enabled = _isVisible;
         }
+
+        private void OnTriggerStay(Collider other)
+            =>_isVisible = false;
 
         private void OnDrawGizmos()
         {

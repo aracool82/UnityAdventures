@@ -5,6 +5,7 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
     public class ControllersUpdater : MonoBehaviour
     {
         [SerializeField] private Character _character;
+        [SerializeField] private Transform _marker;
         [SerializeField] private LayerMask _groundLayerMask;
         [SerializeField] private float _timeToChangeController = 2f;
         [SerializeField] private float _patrolRadius = 5f;
@@ -16,7 +17,7 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
             ClickGroundHandler clickGroundHandler = new ClickGroundHandler(_groundLayerMask,_character.transform);
             
             CompositeController patrolController = new CompositeController(
-                new PatrolController(_character,_timeToChangeController,_patrolRadius),
+                new PatrolController(_character,_marker,_timeToChangeController,_patrolRadius),
                 new AlongMovableVelocityRotatableController(_character,_character));
 
             

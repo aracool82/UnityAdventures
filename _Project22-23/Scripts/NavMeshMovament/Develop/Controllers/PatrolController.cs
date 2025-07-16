@@ -9,6 +9,7 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
         private const float MinDistanceToTarget = 0.1f;
 
         private IDirectionalMovable _movable;
+        private Transform _marker;
         private float _timeToChangePoint;
         private float _radius;
         private Queue<Vector3> _patrolPath;
@@ -20,9 +21,10 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
 
         private float _timer;
 
-        public PatrolController(IDirectionalMovable movable, float timeToChangePoint, float radius)
+        public PatrolController(IDirectionalMovable movable, Transform marker, float timeToChangePoint, float radius)
         {
             _movable = movable;
+            _marker = marker;
             _timeToChangePoint = timeToChangePoint;
             _radius = radius;
             _path = new NavMeshPath();
@@ -33,17 +35,19 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
             _targetPosition = _movable.Transform.position;
         }
 
+        private bool IsMoved => _movable.CurrentVelocity != Vector3.zero;
+
         protected override void UpdateLogic(float deltaTime)
         {
             _timer += deltaTime;
             _direction = Vector3.zero;
+            Debug.DrawRay(_movable.Transform.position + new Vector3(0,0.5f,0), _movable.CurrentVelocity , Color.yellow);
 
-            if (_timer >= _timeToChangePoint)
+            if (_timer >= _timeToChangePoint && IsMoved == false)
             {
                 _timer = 0;
                 Vector3 point;
-
-                int tryCouter = 50;
+                int tryCouter = 20;
 
                 do
                 {
@@ -54,13 +58,16 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
 
                 if (tryCouter == 0)
                 {
-                    _targetPosition = _movable.Transform.position;
+                    //_targetPosition = _movable.Transform.position;
                     Debug.Log("No path found.You can increase tryCounter");
                 }
                 else
                 {
                     SetPath(_path);
+                    SetMarkerAtLastPoint(_path);
                 }
+
+                _targetPosition = GetNextPoint();
             }
 
             if (IsReachedTarget(_targetPosition) == false)
@@ -76,22 +83,29 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
                 }
             }
 
+            if (_timer > _timeToChangePoint && IsMoved)
+                _direction = Vector3.zero;
+
             _movable.SetMoveDirection(_direction);
         }
-
-        private Vector3 GetRandomPointInRadius()
-            => _movable.Transform.position +
-               new Vector3(Random.Range(-_radius, _radius), 0, Random.Range(-_radius, _radius));
 
         private void SetPath(NavMeshPath path)
         {
             _patrolPath.Clear();
 
-            foreach (Vector3 point in path.corners)
-                _patrolPath.Enqueue(point);
-
-            _targetPosition = GetNextPoint();
+            if (path.corners.Length > 1)
+                for (int i = 1; i < path.corners.Length; i++)
+                    _patrolPath.Enqueue(path.corners[i]);
+            else
+                Debug.Log("No path found");
         }
+
+        private void SetMarkerAtLastPoint(NavMeshPath path)
+            => _marker.position = path.corners[path.corners.Length - 1];
+
+        private Vector3 GetRandomPointInRadius()
+            => _movable.Transform.position +
+               new Vector3(Random.Range(-_radius, _radius), 0, Random.Range(-_radius, _radius));
 
         private Vector3 GetNextPoint()
             => _patrolPath.Dequeue();

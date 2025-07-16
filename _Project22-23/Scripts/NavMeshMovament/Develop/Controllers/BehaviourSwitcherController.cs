@@ -20,10 +20,10 @@ namespace _Project22_23.Scripts.NewNavMeshScripts
             
             _timeToChangeController = timeToChangeController;
             
-            _patrolController.Disable();
-            _playerController.Enable();
+            _patrolController.Enable();
+            _playerController.Disable();
             
-            _currentController = playerController;
+            _currentController = patrolController;
         }
 
         private bool IsPresedLeftMouseButton => Input.GetMouseButton(LeftMouseButton);
