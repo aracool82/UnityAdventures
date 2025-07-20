@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7891941048114470834}
-  - component: {fileID: 512675442180295284}
   - component: {fileID: 8325954653012240424}
   m_Layer: 0
   m_Name: Bomb
@@ -34,22 +33,6 @@ Transform:
   - {fileID: 4511866653123568881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &512675442180295284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5906441719238417012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 377f60082eb12c04dbfd640db269be09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ditonationRadius: 3
-  _ditonationTime: 2
-  _damage: 50
-  _collider: {fileID: 8325954653012240424}
 --- !u!135 &8325954653012240424
 SphereCollider:
   m_ObjectHideFlags: 0

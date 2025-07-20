@@ -27,6 +27,9 @@ namespace _Project24_25.NavMesh2
             
             _behaviourSwitcher = new BehaviourSwitcherController(playerController,patrolController,_timeToChangeController);
             _behaviourSwitcher.Enable();
+            
+            _character.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         private void Update()
