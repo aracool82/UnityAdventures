@@ -26,7 +26,7 @@ namespace _Project24_25.NavMesh2
             _currentController = patrolController;
         }
 
-        private bool IsPresedLeftMouseButton => Input.GetMouseButton(LeftMouseButton);
+        private bool IsPresedLeftMouseButton => Input.GetMouseButtonDown(LeftMouseButton);
 
         protected override void UpdateLogic(float deltaTime)
         {

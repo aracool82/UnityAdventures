@@ -12,5 +12,14 @@ namespace _Project24_25.NavMesh2
 
             return false;
         }
+        static public bool TryGetPath(NavMeshAgent agent, Vector3 target,  NavMeshPath path)
+        {
+            if (agent.CalculatePath(target, path) && path.status != NavMeshPathStatus.PathInvalid)
+                return true;
+
+            return false;
+        }
+        
+        
     }
 }
