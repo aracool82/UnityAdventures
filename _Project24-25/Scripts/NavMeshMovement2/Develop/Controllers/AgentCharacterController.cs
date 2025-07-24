@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,7 +32,10 @@ namespace _Project24_25.NavMesh2
                 if (_character.TryGetPath(hit.point, _path))
                     _character.SetDestination(hit.point);
             
-            _character.SetRotationDirection(_character.CurrentVelocity.normalized);
+            if(_character.IsOnNavMeshLink(out OffMeshLinkData data))
+                _character.SetRotationDirection((data.endPos - data.startPos).normalized);
+            else
+                _character.SetRotationDirection(_character.CurrentVelocity.normalized);
         }
     }
 }

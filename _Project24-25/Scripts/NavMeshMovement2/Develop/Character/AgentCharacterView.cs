@@ -7,6 +7,8 @@ namespace _Project24_25.NavMesh2
         private const float FullPersent = 100;
 
         private readonly int IsRuningKey = Animator.StringToHash("IsRun");
+        private readonly int IsJumpProcessKey = Animator.StringToHash("IsJumpProcess");
+        
         private readonly int IsDeadKey = Animator.StringToHash("IsDead");
         private readonly int IsTakeDamageKey = Animator.StringToHash("TakeDamage");
 
@@ -31,6 +33,8 @@ namespace _Project24_25.NavMesh2
             
             // if(IsCriticalPersent())
             //     _animator.SetLayerWeight(_injeredLayerIndex,_maxWeight);
+            
+            _animator.SetBool(IsJumpProcessKey,_character.InJumpProcess);
             
             if (_character.CurrentVelocity.normalized != Vector3.zero)
                 SetAnimationRun();
