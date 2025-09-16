@@ -15,8 +15,8 @@ namespace _Project24_25.NavMesh2
 
         public float Health => _health.Value;
         public float MaxHealth => _health.MaxHealth;
-        public bool IsMoved => _mover.CurrentVelocity != Vector3.zero;
         public bool IsAlive => _health.IsAlive;
+        public bool IsMoved => _mover.CurrentVelocity != Vector3.zero;
         public Vector3 CurrentVelocity => _mover.CurrentVelocity;
         public Quaternion CurrentRotation => _rotator.CurrentRotation;
         public Transform Transform => transform;

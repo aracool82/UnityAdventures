@@ -11,6 +11,7 @@ namespace _Project24_25.NavMesh2
         private MonoBehaviour _coroutineRunner;
         private Coroutine _jumpCoroutine;
         private AnimationCurve _jumpCurve;
+        
         public AgentJumper(NavMeshAgent agent, float jumpSpeed, MonoBehaviour coroutineRunner, AnimationCurve jumpCurve)
         {
             _agent = agent;

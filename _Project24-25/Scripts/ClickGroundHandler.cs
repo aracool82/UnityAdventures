@@ -48,7 +48,7 @@ namespace _Project24_25.NavMesh2
             int corners = _path.corners.Length;
             
             if (corners > 1)
-                for (int i = 1; i <= corners - 1; i++)
+                for (int i = 0; i < corners ; i++)
                     path.Add(_path.corners[i]);
             else
                 Debug.LogError("No correct path");

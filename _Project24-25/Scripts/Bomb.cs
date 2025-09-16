@@ -11,10 +11,9 @@ namespace _Project24_25.NavMesh2
         [SerializeField] private SphereCollider _collider;
         
         private Coroutine _coroutine;
-        private float _multiplier = 2;
 
         private void Awake()
-            =>_collider.radius = _ditonationRadius * _multiplier;
+            =>_collider.radius = _ditonationRadius ;
 
         private void OnTriggerEnter(Collider other)
         {
