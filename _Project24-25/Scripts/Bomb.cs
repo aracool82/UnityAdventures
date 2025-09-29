@@ -5,22 +5,42 @@ namespace _Project24_25.NavMesh2
 {
     public class Bomb : MonoBehaviour
     {
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private float _ditonationRadius;
         [SerializeField] private float _ditonationTime;
         [SerializeField] private float _damage;
         [SerializeField] private SphereCollider _collider;
-        
-        private Coroutine _coroutine;
+
+        private Coroutine _coroutineDetanation;
+        private Coroutine _coroutineStartDetonation;
 
         private void Awake()
-            =>_collider.radius = _ditonationRadius ;
+            => _collider.radius = _ditonationRadius;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out IDamageble damageable))
                 if (damageable.IsAlive)
-                    if (_coroutine == null)
-                        _coroutine = StartCoroutine(StartDetonation(_ditonationTime));
+                    if (_coroutineStartDetonation == null)
+                        _coroutineStartDetonation = StartCoroutine(StartDetonation(_ditonationTime));
+        }
+
+        private IEnumerator StartDetonation(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+            Detonate();
+        }
+
+        private void Detonate()
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _ditonationRadius);
+
+            foreach (Collider collider in colliders)
+                if (collider.TryGetComponent(out IDamageble damageable))
+                    damageable.TakeDamage(_damage);
+
+            _audioSource!.Play();
+            Destroy(gameObject, _audioSource.clip.length);
         }
 
         private void OnDrawGizmos()
@@ -30,24 +50,6 @@ namespace _Project24_25.NavMesh2
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, _ditonationRadius);
             }
-        }
-
-        private IEnumerator StartDetonation(float waitTime)
-        {
-            YieldInstruction wait = new WaitForSeconds(waitTime);
-            yield return wait;
-            Detonate();
-        }
-
-        private void Detonate()
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, _ditonationRadius);
-
-            foreach (Collider collider in colliders)
-                if(collider.TryGetComponent(out IDamageble damageable))
-                    damageable.TakeDamage(_damage);
-            
-            Destroy(gameObject);
         }
     }
 }

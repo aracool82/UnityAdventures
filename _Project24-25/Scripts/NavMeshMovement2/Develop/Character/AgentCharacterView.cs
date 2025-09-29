@@ -19,7 +19,7 @@ namespace _Project24_25.NavMesh2
 
         private float _currentPersent;
         private int _injeredLayerIndex;
-        private float _maxWeight = 1;
+        //private float _maxWeight = 1;
         
         private void Awake()
         {

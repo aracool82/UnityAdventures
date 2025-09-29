@@ -29,14 +29,16 @@ namespace _Project24_25.NavMesh2
 
         private void Awake()
         {
-            _controlHealth = _maxHealth;
-            _health = new Health(_maxHealth);
-            
             _agent = GetComponent<NavMeshAgent>();
+            
+            _jumper = new AgentJumper(_agent, _jumpSpeed, this, _jumpCurve);
             _rotator = new DirectionRotator(transform, _rotationSpeed);
             _mover = new AgentMover(_agent, _moveSpeed);
-            _jumper = new AgentJumper(_agent, _jumpSpeed, this, _jumpCurve);
+           
             _agent.updateRotation = false;
+            
+            _controlHealth = _maxHealth;
+            _health = new Health(_maxHealth);
         }
         
         private void Update()
