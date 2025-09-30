@@ -5,7 +5,9 @@ namespace _Project24_25.NavMesh2
 {
     public class Bomb : MonoBehaviour
     {
-        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioManager _audioManager;
+        [SerializeField] private AudioClip _clip;
+        
         [SerializeField] private float _ditonationRadius;
         [SerializeField] private float _ditonationTime;
         [SerializeField] private float _damage;
@@ -22,10 +24,10 @@ namespace _Project24_25.NavMesh2
             if (other.TryGetComponent(out IDamageble damageable))
                 if (damageable.IsAlive)
                     if (_coroutineStartDetonation == null)
-                        _coroutineStartDetonation = StartCoroutine(StartDetonation(_ditonationTime));
+                        _coroutineStartDetonation = StartCoroutine(StartDetonationWithWait(_ditonationTime));
         }
 
-        private IEnumerator StartDetonation(float waitTime)
+        private IEnumerator StartDetonationWithWait(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
             Detonate();
@@ -39,8 +41,8 @@ namespace _Project24_25.NavMesh2
                 if (collider.TryGetComponent(out IDamageble damageable))
                     damageable.TakeDamage(_damage);
 
-            _audioSource!.Play();
-            Destroy(gameObject, _audioSource.clip.length);
+            _audioManager.PlayOneShotClip(_clip);
+            Destroy(gameObject);
         }
 
         private void OnDrawGizmos()

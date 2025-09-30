@@ -1,8 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
 namespace _Project24_25.NavMesh2
 {
@@ -13,16 +11,17 @@ namespace _Project24_25.NavMesh2
         
         private const string OnSound = "Sound On";
         private const string OffSound = "Sound Off";
-        
-        [SerializeField] private Button _buttonOnOffMusic;
+
         [SerializeField] private TMP_Text _textMusic;
-        
-        [SerializeField] private Button _buttonOnOffSound;
         [SerializeField] private TMP_Text _textSound;
         
         [SerializeField] private AudioMixer _mixer;
+        [SerializeField] private AudioSource _backGroundAudioSource;
+        [SerializeField] private AudioSource _clipAudioSource;
         
         private AudioHandler _audioHandler;
+        private AudioClip _clip;
+        private AudioClip _backGroundClip;
         
         private bool _isPessedMusicButoon = false;
         private bool _isPessedSoundButoon = false;
@@ -30,7 +29,8 @@ namespace _Project24_25.NavMesh2
         private void Awake()
         {
             _audioHandler = new AudioHandler(_mixer);
-
+            _backGroundClip = _backGroundAudioSource.clip;
+            
             ClickButtonOnOffMusic();
             ClickButtonOnOffSound();
         }
@@ -66,7 +66,15 @@ namespace _Project24_25.NavMesh2
                 _textSound.text = OffSound;
             }
         }
-        
+
+        public void PlayOneShotClip(AudioClip clip)
+        {
+            if(clip == null)
+                return;
+            
+            _clipAudioSource.PlayOneShot(clip);
+        }
+
         private void PlayMusic()
             =>_audioHandler.OnMusic();
         

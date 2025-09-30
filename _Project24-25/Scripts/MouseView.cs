@@ -6,11 +6,10 @@ namespace _Project24_25.NavMesh2
     public class MouseView : MonoBehaviour
     {
         private const int LeftMouseButton = 0;
-        private const string GroundLayer = "Ground";
-
-        [SerializeField] private AudioClip _audioClipClick;
-        [SerializeField] private AudioSource _audioSource;
-        [SerializeField] private ParticleSystem _clickEffectParticlce;
+        
+        [SerializeField] private AudioManager _audioManager;
+        [SerializeField] private AudioClip _clip;
+        [SerializeField] private ParticleSystem _clickEffectParticle;
         [SerializeField] private LayerMask _groundLayerMask;
 
         private ClickGroundHandler _clickGroundHandler;
@@ -33,9 +32,9 @@ namespace _Project24_25.NavMesh2
             {
                 if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
                 {
-                    _clickEffectParticlce.transform.position = hit.point + new Vector3(0, 0.1f, 0);
-                    _clickEffectParticlce.Play();
-                    _audioSource.PlayOneShot(_audioClipClick);
+                    _clickEffectParticle!.transform.position = hit.point + new Vector3(0, 0.1f, 0);
+                    _clickEffectParticle!.Play();
+                    _audioManager!.PlayOneShotClip(_clip);
                 }
             }
         }
