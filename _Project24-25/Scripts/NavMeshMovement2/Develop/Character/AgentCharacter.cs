@@ -10,7 +10,7 @@ namespace _Project24_25.NavMesh2
         [SerializeField] private float _jumpSpeed = 5f;
         [SerializeField] private AnimationCurve _jumpCurve;
         [SerializeField] private float _maxHealth = 120;
-        [SerializeField] private float _controlHealth;
+        [SerializeField] private AgentCharacterView _view;
         
         private Health _health;
         private DirectionRotator _rotator;
@@ -36,8 +36,6 @@ namespace _Project24_25.NavMesh2
             _mover = new AgentMover(_agent, _moveSpeed);
            
             _agent.updateRotation = false;
-            
-            _controlHealth = _maxHealth;
             _health = new Health(_maxHealth);
         }
         
@@ -52,7 +50,7 @@ namespace _Project24_25.NavMesh2
         public void TakeDamage(float amount)
         {
             _health.TakeDamage(amount);
-            _controlHealth = _health.Value;
+            _view.SetAnimationTakeDamage();
         }
         
         public void Jamp(OffMeshLinkData data)

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace _Project24_25.NavMesh2
@@ -5,7 +6,8 @@ namespace _Project24_25.NavMesh2
     public class AgentCharacterView : MonoBehaviour
     {
         private const float FullPersent = 100;
-
+        private const string InjeredLayerName = "InjeredLayer";
+        
         private readonly int IsRuningKey = Animator.StringToHash("IsRun");
         private readonly int IsJumpProcessKey = Animator.StringToHash("IsJumpProcess");
         
@@ -14,25 +16,28 @@ namespace _Project24_25.NavMesh2
 
         [SerializeField] private AgentCharacter _character;
         [SerializeField] private Animator _animator;
-       // [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private float _criticalPersent = 30;
 
         private float _currentPersent;
         private int _injeredLayerIndex;
-        //private float _maxWeight = 1;
+        private float _maxWeight = 1;
         
-        private void Awake()
+        private void Start()
         {
-            _injeredLayerIndex = _animator.GetLayerIndex("InjeredLayer");
+            _injeredLayerIndex = _animator.GetLayerIndex(InjeredLayerName);
         }
 
         private void Update()
         {
-            //_currentPersent = _character.Health / (_character.MaxHealth / FullPersent);
-           // _text.text = "hp : " + _character.Health.ToString() + " % : " + _currentPersent.ToString("0.0");
+            _currentPersent = _character.Health / (_character.MaxHealth / FullPersent);
+            _text.text = "HP : " + _character.Health.ToString() + "\n % : " + _currentPersent.ToString("0.0");
             
-            // if(IsCriticalPersent())
-            //     _animator.SetLayerWeight(_injeredLayerIndex,_maxWeight);
+            if(IsCriticalPersent())
+            {
+                _text.color = Color.red;
+                _animator.SetLayerWeight(_injeredLayerIndex, _maxWeight);
+            }
             
             _animator.SetBool(IsJumpProcessKey,_character.InJumpProcess);
             
@@ -51,12 +56,15 @@ namespace _Project24_25.NavMesh2
         private void SetAnimationIdle()
             => _animator.SetBool(IsRuningKey, false);
 
-        // public void SetAnimationTakeDamage()
-        // {
-        //     if (_character.IsAlive)
-        //         _animator.SetTrigger(IsTakeDamageKey);
-        //     else
-        //         _animator.SetTrigger(IsDeadKey);
-        // }
+        public void SetAnimationTakeDamage()
+        {
+            if (_character.IsAlive)
+                _animator.SetTrigger(IsTakeDamageKey);
+            else
+            {
+                _character.StopMove();
+                _animator.SetTrigger(IsDeadKey);
+            }
+        }
     }
 }
