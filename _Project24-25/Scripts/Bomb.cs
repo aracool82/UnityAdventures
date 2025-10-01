@@ -5,19 +5,31 @@ namespace _Project24_25.NavMesh2
 {
     public class Bomb : MonoBehaviour
     {
+        private const float MinScaleSpeed = 0;
+        private const float MaxScaleSpeed = 15;
+        private const string ScaleProperty = "_SpeedScale";
+        
+        [SerializeField] private Renderer _renderer;
+
         [SerializeField] private AudioManager _audioManager;
         [SerializeField] private AudioClip _clip;
-        
+
         [SerializeField] private float _ditonationRadius;
         [SerializeField] private float _ditonationTime;
         [SerializeField] private float _damage;
         [SerializeField] private SphereCollider _collider;
-
+        
+        private Material[] _materials;
         private Coroutine _coroutineDetanation;
         private Coroutine _coroutineStartDetonation;
 
         private void Awake()
-            => _collider.radius = _ditonationRadius;
+        {
+            _collider.radius = _ditonationRadius;
+            _renderer = GetComponentInChildren<Renderer>();
+            _materials = _renderer.materials;
+            SetScaleSpeed(MinScaleSpeed);
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -29,6 +41,7 @@ namespace _Project24_25.NavMesh2
 
         private IEnumerator StartDetonationWithWait(float waitTime)
         {
+            SetScaleSpeed(MaxScaleSpeed);
             yield return new WaitForSeconds(waitTime);
             Detonate();
         }
@@ -43,6 +56,12 @@ namespace _Project24_25.NavMesh2
 
             _audioManager.PlayOneShotClip(_clip);
             Destroy(gameObject);
+        }
+
+        private void SetScaleSpeed(float speed)
+        {
+            foreach (Material material in _materials)
+                material.SetFloat(ScaleProperty, speed);
         }
 
         private void OnDrawGizmos()
