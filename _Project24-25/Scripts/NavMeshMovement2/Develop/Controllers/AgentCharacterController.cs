@@ -28,7 +28,7 @@ namespace _Project24_25.NavMesh2
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            if (IsUiClicked)
+            if (IsUiClicked && _character == null || _character.IsAlive == false)
                 return;
 
             if (IsPressedLeftMouseButton && Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundLayer))
