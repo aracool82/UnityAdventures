@@ -1882,6 +1882,7 @@ MonoBehaviour:
   _animator: {fileID: 339107077}
   _text: {fileID: 937283260}
   _criticalPersent: 30
+  _shaderEffect: {fileID: 339107079}
 --- !u!114 &339107079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1921,6 +1922,8 @@ MonoBehaviour:
   - {fileID: 579559374}
   - {fileID: 1275842683}
   _character: {fileID: 1810308679}
+  _defaultMaterial: {fileID: 2100000, guid: c1a60df7ad8e1bd4fac6b852570314f4, type: 2}
+  _desolveMaterial: {fileID: 2100000, guid: 98a47862aa3028844851e35edcb661d1, type: 2}
 --- !u!1001 &339768517
 PrefabInstance:
   m_ObjectHideFlags: 0

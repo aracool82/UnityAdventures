@@ -18,6 +18,7 @@ namespace _Project24_25.NavMesh2
         [SerializeField] private Animator _animator;
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private float _criticalPersent = 30;
+        [SerializeField] private CharacterDissolve _shaderEffect;
 
         private float _currentPersent;
         private int _injeredLayerIndex;
@@ -59,9 +60,13 @@ namespace _Project24_25.NavMesh2
         public void SetAnimationTakeDamage()
         {
             if (_character.IsAlive)
+            {
+                _shaderEffect.AplyEffectDamge();
                 _animator.SetTrigger(IsTakeDamageKey);
+            }
             else
             {
+                _shaderEffect.AplyEffectDamge();
                 _character.StopMove();
                 _animator.SetTrigger(IsDeadKey);
             }
