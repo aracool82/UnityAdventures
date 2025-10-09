@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace _Project27_28.Scripts
+namespace _Project27_28.Scripts.Task1
 {
     public class Storage : MonoBehaviour
     {
