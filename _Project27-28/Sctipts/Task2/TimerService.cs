@@ -2,7 +2,7 @@
 
 namespace _Project27_28.Scripts.Task2
 {
-    public class TimerService
+    public class TimerService : IUpdateble
     {
         public event Action Changed;
 
