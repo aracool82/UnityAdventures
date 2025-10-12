@@ -6,28 +6,30 @@ namespace _Project27_28.Scripts.Task2
     public class TimerView : MonoBehaviour
     {
         private const string Text = "Time : ";
-        
-        [SerializeField] private TMP_Text _text;
-        //[SerializeField] private Timer _timer;
-        private Timer _timer;
 
-        // private void OnEnable()
-        // {
-        //     Debug.Log("TimerView::OnEnable");
-        //     
-        //     _timer.Changed += OnChange;
-        // }
-        
-        public void Initialize(Timer timer)
+        [SerializeField] private TMP_Text _text;
+
+        private TimerService _timerService;
+
+        public void Initialize(TimerService timerService)
         {
-            _timer = timer;
-            _timer.Changed += OnChange;
+            _timerService = timerService;
+            _timerService.Changed += OnChange;
         }
-        
+
         private void OnDisable()
-            =>_timer.Changed -= OnChange;
+            => _timerService.Changed -= OnChange;
+
+        public void StartService()
+            => _timerService.Start();
+        
+        public void StopService()
+            => _timerService.Stop();
+        
+        public void  ResetService()
+            => _timerService.Reset();
 
         private void OnChange()
-            => _text.text =$"{Text} {_timer.Value}";
+            => _text.text = $"{Text} {_timerService.Value}";
     }
 }

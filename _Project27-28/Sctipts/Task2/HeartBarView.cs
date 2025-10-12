@@ -8,30 +8,30 @@ namespace _Project27_28.Scripts.Task2
     {
         [SerializeField] private Image _heart;
 
-        private Timer _timer;
+        private TimerService _timerService;
         private List<Image> _hearts = new();
 
-        public void Initialize(Timer timer)
+        public void Initialize(TimerService timerService)
         {
             _hearts.Add(_heart);
 
-            _timer = timer;
-            _timer.Changed += OnChange;
-            CreateImages((int)_timer.Duration);
+            _timerService = timerService;
+            _timerService.Changed += OnChange;
+            CreateImages((int)_timerService.Duration);
         }
 
         private void OnDisable()
-            => _timer.Changed -= OnChange;
+            => _timerService.Changed -= OnChange;
 
         private void OnChange()
         {
-            if (_timer.Value == 0)
+            if (_timerService.Value == 0)
             {
                 _hearts.ForEach(image => image.gameObject.SetActive(true));
                 return;
             }
 
-            int index = _hearts.Count - (int)_timer.Value;
+            int index = _hearts.Count - (int)_timerService.Value;
             _hearts[index].gameObject.SetActive(false);
         }
 

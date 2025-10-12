@@ -5,23 +5,24 @@ namespace _Project27_28.Scripts.Task2
 {
     public class SliderBarView : MonoBehaviour
     {
-        [SerializeField] private Timer _timer;
         [SerializeField] private Slider _slider;
+        
+        private TimerService _timerService;
 
-        public void Initialize(Timer timer)
+        public void Initialize(TimerService timerService)
         {
-            _timer = timer;
-            _timer.Changed += OnChange;
+            _timerService = timerService;
+            _timerService.Changed += OnChange;
         }
 
         private void OnDisable()
         {
-            _timer.Changed += OnChange;
+            _timerService.Changed += OnChange;
         }
 
         private void OnChange()
         {
-            _slider.value = _timer.Value / _timer.Duration;
+            _slider.value = _timerService.Value / _timerService.Duration;
         }
     }
 }
