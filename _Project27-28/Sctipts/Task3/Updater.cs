@@ -11,8 +11,8 @@ namespace _Project27_28.Scripts.Task3
             if(_updatebles.Count == 0)
                 return;
 
-            foreach ( IUpdateble IUpadateble in _updatebles)
-                IUpadateble.UpdateLogic(deltaTime);
+            for (int i = 0; i < _updatebles.Count; i++)
+                _updatebles[i].UpdateLogic(deltaTime);
         }
 
         public void AddUpadateble(IUpdateble updateble)
@@ -23,5 +23,4 @@ namespace _Project27_28.Scripts.Task3
             _updatebles.Add(updateble);
         }
     }
-
 }
