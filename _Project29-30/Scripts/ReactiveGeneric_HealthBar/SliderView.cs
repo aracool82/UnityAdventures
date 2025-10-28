@@ -26,14 +26,14 @@ namespace _Project29_30.Scripts.ReactiveGeneric_Health
             _max.Changed -= OnCurrentChanged;
             _current.Changed -= OnCurrentChanged;
         }
+        
+        private void UpdateValue(float currentValue, float maxValue)
+            => _slider.value = currentValue / maxValue;
+        
         private void OnMaxChanged(float oldValue, float newValue)
             => UpdateValue(_current.Value,newValue);
 
         private void OnCurrentChanged(float oldValue, float newValue)
             => UpdateValue(newValue,_max.Value);
-
-        private void UpdateValue(float currentValue, float maxValue)
-            => _slider.value = currentValue / maxValue;
-
     }
 }
