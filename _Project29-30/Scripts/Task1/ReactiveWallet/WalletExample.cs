@@ -11,7 +11,10 @@ namespace _Project29_30.Scripts.Task1.ReactiveWallet
         private void Awake()
         {
             _wallet = new Wallet();
-            _currencyView.Initialize(_wallet);
+            _currencyView.Initialize(
+                _wallet.Currencies[CurrencyType.Diamonds],
+                _wallet.Currencies[CurrencyType.Energy],
+                _wallet.Currencies[CurrencyType.Coins]);
         }
 
         private void Update()
