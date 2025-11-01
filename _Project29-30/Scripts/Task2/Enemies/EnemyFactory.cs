@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Project29_30.Scripts.Task2
 {
@@ -16,7 +17,7 @@ namespace _Project29_30.Scripts.Task2
         public Dragon CreateDragon(DragonSetting dragonSetting, Vector3 position)
         {
             Enemy enemyPrefab = GetEnemy(enemy => enemy.GetComponent<Dragon>() != null);
-            Dragon instance = GameObject.Instantiate(enemyPrefab, position, Quaternion.identity, null)
+            Dragon instance = Object.Instantiate(enemyPrefab, position, Quaternion.identity, null)
                 .GetComponent<Dragon>();
             instance.Initialize(dragonSetting.Health, dragonSetting.Damage);
             return instance;
@@ -25,7 +26,7 @@ namespace _Project29_30.Scripts.Task2
         public Ork CreateOrc(OrkSetting orkSetting, Vector3 position)
         {
             Enemy enemyPrefab = GetEnemy(enemy => enemy.GetComponent<Ork>() != null);
-            Ork instance = GameObject.Instantiate(enemyPrefab, position, Quaternion.identity, null)
+            Ork instance = Object.Instantiate(enemyPrefab, position, Quaternion.identity, null)
                 .GetComponent<Ork>();
             instance.Initialize(orkSetting._speed, orkSetting._isDead);
             return instance;
@@ -34,7 +35,7 @@ namespace _Project29_30.Scripts.Task2
         public Elf CreateElf(ElfSetting elfSetting, Vector3 position)
         {
             Enemy enemyPrefab = GetEnemy(enemy => enemy.GetComponent<Elf>() != null);
-            Elf instance = GameObject.Instantiate(enemyPrefab, position, Quaternion.identity, null)
+            Elf instance = Object.Instantiate(enemyPrefab, position, Quaternion.identity, null)
                 .GetComponent<Elf>();
             instance.Initialize(elfSetting.Position, elfSetting.Rotation,elfSetting.Name);
             return instance;
