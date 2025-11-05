@@ -818,10 +818,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9961700cb78420598b75f60790f7628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemies:
+  _enemiesPrefab:
   - {fileID: 397902227}
   - {fileID: 583690974}
   - {fileID: 1919920613}
+  _dragonSetings:
+  - <Health>k__BackingField: 0
+    <Damage>k__BackingField: 0
+    <IsSelected>k__BackingField: 0
 --- !u!4 &931300113
 Transform:
   m_ObjectHideFlags: 0
