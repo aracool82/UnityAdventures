@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace _Project29_30.Scripts.Task2
+﻿namespace _Project29_30.Scripts.Task2
 {
     public class Dragon : Enemy
     {

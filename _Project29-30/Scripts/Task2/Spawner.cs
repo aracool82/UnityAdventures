@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace _Project29_30.Scripts.Task2
@@ -7,53 +8,52 @@ namespace _Project29_30.Scripts.Task2
     public class Spawner : MonoBehaviour
     {
         [SerializeField] private List<Enemy> _enemiesPrefab;
-        [SerializeField] private List<DragonSetting> _dragonSetings;
+        [SerializeField] private EnemySetting _enemySetting;
 
-        //[SerializeField] private GlobalSetting _setting;
         private void Awake()
         {
-            //_setting = new GlobalSetting(_enemiesPrefab);
-            _dragonSetings = new List<DragonSetting>()
+            Inventory inventory = new Inventory(3);
+            inventory.Add(new Item(0));
+            inventory.Add(new Item(0));
+            inventory.Add(new Item(1));
+
+            List<Item> items = inventory.GetItemsBy(0);
+            Debug.Log(items.Count);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                new DragonSetting(10, 40),
-                new DragonSetting(10, 10)
-            };
+                var dragonSetting = _enemySetting.GetRandomDragonSetting();
+                Enemy enemy = CreateEnemyBy(EnemyTypes.Dragon);
+                Dragon dragon = (Dragon)enemy;
+                dragon.Initialize(dragonSetting.Health, dragonSetting.Damage);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                var elfSetting = _enemySetting.GetRandomElfSetting();
+                Enemy enemy = CreateEnemyBy(EnemyTypes.Elf);
+                Elf elf = (Elf)enemy;
+                elf.Initialize(elfSetting.Position, elfSetting.Rotation, elfSetting.Name);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                var orkSetting = _enemySetting.GetRandomOrkSetting();
+                Enemy enemy = CreateEnemyBy(EnemyTypes.Ork);
+                Ork ork = (Ork)enemy;
+                ork.Initialize(orkSetting.Speed, orkSetting.IsDead);
+            }
         }
-    }
 
-    [Serializable]
-    public class GlobalSetting
-    {
-        [SerializeField] private List<DragonSetting> _dragonSetings;
-        [SerializeField] private List<ElfSetting> _elfSetings;
-        [SerializeField] private List<OrkSetting> _orkSetings;
-
-        private List<Enemy> _enemiesPrefab;
-        private EnemyFactory _enemyFactory;
-
-        public GlobalSetting(List<Enemy> enemiesPrefab)
+        private Enemy CreateEnemyBy(EnemyTypes type, Vector3 position = default(Vector3))
         {
-            _enemiesPrefab = enemiesPrefab;
-            _enemyFactory = new EnemyFactory(_enemiesPrefab);
-            Create();
-        }
+            Enemy prefab = _enemiesPrefab.First(findEnemy => findEnemy.Type == type);
+            Enemy instance = Instantiate(prefab, position, Quaternion.identity, null);
 
-        private void Create()
-        {
-            _enemyFactory = new EnemyFactory(_enemiesPrefab);
-
-            _dragonSetings.Add(new DragonSetting(100, 100));
-            _dragonSetings.Add(new DragonSetting(200, 200));
-            _dragonSetings.Add(new DragonSetting(200, 200));
-
-
-            _elfSetings.Add(new ElfSetting(new Vector3(1, 0, 0), Quaternion.identity, "Elf1"));
-            _elfSetings.Add(new ElfSetting(new Vector3(2, 0, 0), Quaternion.identity, "Elf2"));
-            _elfSetings.Add(new ElfSetting(new Vector3(3, 0, 0), Quaternion.identity, "Elf3"));
-
-            _orkSetings.Add(new OrkSetting(2, false));
-            _orkSetings.Add(new OrkSetting(4, false));
-            _orkSetings.Add(new OrkSetting(6, false));
+            return instance;
         }
     }
 }
