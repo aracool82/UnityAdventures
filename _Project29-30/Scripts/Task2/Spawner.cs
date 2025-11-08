@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,17 +8,6 @@ namespace _Project29_30.Scripts.Task2
     {
         [SerializeField] private List<Enemy> _enemiesPrefab;
         [SerializeField] private EnemySetting _enemySetting;
-
-        private void Awake()
-        {
-            Inventory inventory = new Inventory(3);
-            inventory.Add(new Item(0));
-            inventory.Add(new Item(0));
-            inventory.Add(new Item(1));
-
-            List<Item> items = inventory.GetItemsBy(0);
-            Debug.Log(items.Count);
-        }
 
         private void Update()
         {

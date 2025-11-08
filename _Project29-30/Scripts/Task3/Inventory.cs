@@ -1,60 +1,111 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace _Project29_30.Scripts.Task2
+namespace _Project29_30.Scripts.Task3
 {
     public class Inventory
     {
-        private readonly int _maxSize;
-
-        private Dictionary<int, int> _items = new();
+        public readonly int MaxSize;
+        private readonly Dictionary<int, Item> _items = new();
 
         public Inventory(int maxSize)
         {
-            _maxSize = maxSize;
+            MaxSize = maxSize;
         }
 
-        public int CurrentSize => _items.Values.Sum();
+        public int CurrentSize => _items.Values.Sum(item => item.Count);
 
         public void Add(Item item)
         {
-            if (CurrentSize == _maxSize || item == null)
+            if (item == null)
+                throw new ArgumentNullException($"{nameof(item)} cannot be null");
+
+            if (CanAdd(item.Count) == false)
             {
-                Debug.LogError($"Cannot add an item to a Inventory.");
+                Debug.LogWarning($"Can't add item. MaxSize inventory: {MaxSize}, current size: {CurrentSize}.");
                 return;
             }
 
-            if (_items.ContainsKey(item.ID))
-                _items[item.ID]++;
+            if (_items.ContainsKey(item.Id))
+                _items[item.Id].AddCount(item.Count);
             else
-                _items.Add(item.ID, 1);
+                _items.Add(item.Id, item);
         }
 
-        public List<Item> GetItemsBy(int id) //TODO
+        public void RemoveFor(int id, int amount)
         {
-            List<Item> items = new();
-
-
-            if (_items.ContainsKey(id))
+            if (_items.ContainsKey(id) == false)
             {
-                int count = _items[id];
+                Debug.Log($"Can't remove item. {nameof(id)} = {id} not found.");
+            }
+            else
+            {
+                _items[id].RemoveCount(amount);
 
-                for (int i = 0; i < count; i++)
-                    items.Add(new Item(id));
+                if (_items[id].Count == 0)
+                    _items.Remove(id);
+            }
+        }
+
+        public Item GetItemsBy(int id, int count) //TODO
+        {
+            if (TryGetItem(id, count))
+            {
+                _items[id].RemoveCount(count);
+                return new Item(id, count, MaxSize);
             }
 
-            return items;
+            Debug.LogError($"{nameof(id)} = {id} not found.");
+            return new Item(0, 0, 0);
         }
+
+        public bool TryGetItem(int id, int count)
+        {
+            if (_items.TryGetValue(id, out var item))
+                return item.CanRemove(count);
+
+            return false;
+        }
+
+        private bool CanAdd(int count)
+            => MaxSize >= CurrentSize + count;
     }
 
     public class Item
     {
-        public Item(int id)
+        private readonly int _maxSize;
+
+        public Item(int id, int count, int maxSize)
         {
-            ID = id;
+            Id = id;
+            Count = count;
+            _maxSize = maxSize;
         }
 
-        public int ID { get; private set; }
+        public int Id { get; }
+        public int Count { get; private set; }
+
+        public void AddCount(int amount)
+        {
+            if (IsNegativeValue(amount) == false && CanAdd(amount))
+                Count += amount;
+        }
+
+        public void RemoveCount(int amount)
+        {
+            if (IsNegativeValue(amount) == false && CanRemove(amount))
+                Count -= amount;
+        }
+
+        public bool CanAdd(int amount)
+            => Count + amount <= _maxSize;
+
+        public bool CanRemove(int amount)
+            => Count - amount >= 0;
+
+        private static bool IsNegativeValue(int amount)
+            => amount < 0 ? throw new ArgumentException($"{nameof(amount)} cannot be negative") : false;
     }
 }
