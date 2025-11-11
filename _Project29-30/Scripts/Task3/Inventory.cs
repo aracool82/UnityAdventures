@@ -34,7 +34,7 @@ namespace _Project29_30.Scripts.Task3
                 _items.Add(item.Id, item);
         }
 
-        public void RemoveFor(int id, int amount)
+        public void RemoveBy(int id, int amount)
         {
             if (_items.ContainsKey(id) == false)
             {

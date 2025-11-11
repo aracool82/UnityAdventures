@@ -16,7 +16,7 @@ namespace _Project29_30.Scripts.Task3
             _inventory.Add(item);
             _inventory.Add(item2);
             
-            _inventory.RemoveFor(-10,7);
+            _inventory.RemoveBy(-10,7);
             Item item3 = _inventory.GetItemsBy(-10, 1);
             
             Debug.Log($"CurrentSize - {_inventory.CurrentSize}.");
