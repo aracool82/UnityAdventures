@@ -39,26 +39,22 @@ namespace _Project29_30.Scripts.Task3
             if (_items.ContainsKey(id) == false)
             {
                 Debug.Log($"Can't remove item. {nameof(id)} = {id} not found.");
+                return;
             }
-            else
-            {
-                _items[id].RemoveCount(amount);
 
-                if (_items[id].Count == 0)
-                    _items.Remove(id);
-            }
+            _items[id].RemoveCount(amount);
+
+            if (_items[id].Count == 0)
+                _items.Remove(id);
         }
 
-        public Item GetItemsBy(int id, int count) //TODO
+        public Item GetItemsBy(int id, int count)
         {
             if (TryGetItem(id, count))
-            {
-                _items[id].RemoveCount(count);
-                return new Item(id, count, MaxSize);
-            }
+                return _items[id].GetItemsBy(count);
 
             Debug.LogError($"{nameof(id)} = {id} not found.");
-            return new Item(0, 0, 0);
+            return null;
         }
 
         public bool TryGetItem(int id, int count)
@@ -71,41 +67,5 @@ namespace _Project29_30.Scripts.Task3
 
         private bool CanAdd(int count)
             => MaxSize >= CurrentSize + count;
-    }
-
-    public class Item
-    {
-        private readonly int _maxSize;
-
-        public Item(int id, int count, int maxSize)
-        {
-            Id = id;
-            Count = count;
-            _maxSize = maxSize;
-        }
-
-        public int Id { get; }
-        public int Count { get; private set; }
-
-        public void AddCount(int amount)
-        {
-            if (IsNegativeValue(amount) == false && CanAdd(amount))
-                Count += amount;
-        }
-
-        public void RemoveCount(int amount)
-        {
-            if (IsNegativeValue(amount) == false && CanRemove(amount))
-                Count -= amount;
-        }
-
-        public bool CanAdd(int amount)
-            => Count + amount <= _maxSize;
-
-        public bool CanRemove(int amount)
-            => Count - amount >= 0;
-
-        private static bool IsNegativeValue(int amount)
-            => amount < 0 ? throw new ArgumentException($"{nameof(amount)} cannot be negative") : false;
     }
 }

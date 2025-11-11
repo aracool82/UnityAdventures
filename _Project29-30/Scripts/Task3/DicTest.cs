@@ -8,18 +8,19 @@ namespace _Project29_30.Scripts.Task3
 
         private void Awake()
         {
-            _inventory = new Inventory(6);
+            _inventory = new Inventory(20);
 
-            Item item = new Item(-10, 5,_inventory.MaxSize);
-            
+            Item item = new Item(-10, 4,20);
+           
+            Item item2 = new Item(-10, 4,20);
             _inventory.Add(item);
-            Debug.Log($"CurrentSize - {_inventory.CurrentSize}.");
-            
-            Item item2 = new Item(-10, 1, _inventory.MaxSize);
             _inventory.Add(item2);
             
-            _inventory.RemoveFor(-1,7);
+            _inventory.RemoveFor(-10,7);
+            Item item3 = _inventory.GetItemsBy(-10, 1);
+            
             Debug.Log($"CurrentSize - {_inventory.CurrentSize}.");
+            Debug.Log($"item3.Id - {item3.Id}.");
         }
     }
 }
