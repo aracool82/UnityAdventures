@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace _Project29_30.Scripts.Task2
@@ -9,12 +8,20 @@ namespace _Project29_30.Scripts.Task2
         [SerializeField] private List<Enemy> _enemiesPrefab;
         [SerializeField] private EnemySetting _enemySetting;
 
+        private Dictionary<EnemyTypes, Enemy> _enemies = new();
+
+        private void Awake()
+        {
+            foreach (Enemy enemy in _enemiesPrefab)
+                _enemies.Add(enemy.Type, enemy);
+        }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 var dragonSetting = _enemySetting.GetRandomDragonSetting();
-                Enemy enemy = CreateEnemyBy(EnemyTypes.Dragon);
+                Enemy enemy = CreateEnemyBy(EnemyTypes.Dragon,new Vector3(2,0,0));
                 Dragon dragon = (Dragon)enemy;
                 dragon.Initialize(dragonSetting.Health, dragonSetting.Damage);
             }
@@ -22,7 +29,7 @@ namespace _Project29_30.Scripts.Task2
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 var elfSetting = _enemySetting.GetRandomElfSetting();
-                Enemy enemy = CreateEnemyBy(EnemyTypes.Elf);
+                Enemy enemy = CreateEnemyBy(EnemyTypes.Elf,new Vector3(1,0,0));
                 Elf elf = (Elf)enemy;
                 elf.Initialize(elfSetting.Position, elfSetting.Rotation, elfSetting.Name);
             }
@@ -37,11 +44,6 @@ namespace _Project29_30.Scripts.Task2
         }
 
         private Enemy CreateEnemyBy(EnemyTypes type, Vector3 position = default(Vector3))
-        {
-            Enemy prefab = _enemiesPrefab.First(findEnemy => findEnemy.Type == type);
-            Enemy instance = Instantiate(prefab, position, Quaternion.identity, null);
-
-            return instance;
-        }
+            => Instantiate(_enemies[type], position, Quaternion.identity, null);
     }
 }

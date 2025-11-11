@@ -34,9 +34,6 @@ namespace _Project29_30.Scripts.Task3
             return false;
         }
 
-        public Item GetItemsBy(int amount)
-            => RemoveCount(amount) == true ? new Item(Id, amount, MaxCount) : null;
-
         public bool CanAdd(int amount)
             => Count + amount <= MaxCount;
 

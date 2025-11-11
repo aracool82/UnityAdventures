@@ -11,11 +11,10 @@ namespace _Project29_30.Scripts.Task3
         private readonly Dictionary<int, Item> _items = new();
 
         public Inventory(int maxSize)
-        {
-            MaxSize = maxSize;
-        }
+            => MaxSize = maxSize;
 
         public int CurrentSize => _items.Values.Sum(item => item.Count);
+        public IEnumerable<Item> Items => _items.Values.ToList();
 
         public void Add(Item item)
         {
@@ -42,22 +41,28 @@ namespace _Project29_30.Scripts.Task3
                 return;
             }
 
-            _items[id].RemoveCount(amount);
+            if (CanRemoveItem(id, amount))
+            {
+                _items[id].RemoveCount(amount);
 
-            if (_items[id].Count == 0)
-                _items.Remove(id);
+                if (_items[id].Count == 0)
+                    _items.Remove(id);
+            }
         }
 
         public Item GetItemsBy(int id, int count)
         {
-            if (TryGetItem(id, count))
-                return _items[id].GetItemsBy(count);
+            Item item = null;
 
-            Debug.LogError($"{nameof(id)} = {id} not found.");
-            return null;
+            if (_items.ContainsKey(id))
+                item = _items[id];
+
+            RemoveBy(id, count);
+
+            return new Item(item.Id, item.Count, item.MaxCount);
         }
 
-        public bool TryGetItem(int id, int count)
+        public bool CanRemoveItem(int id, int count)
         {
             if (_items.TryGetValue(id, out var item))
                 return item.CanRemove(count);
