@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace _Project31.Scripts
 {
-    public class Hero : MonoBehaviour,IDamageble
+    public class Hero : MonoBehaviour,IHeroDamageble
     {
+        public event Action Dead;
+        
         private const string Vertical = "Vertical";
         private const string Horizontal = "Horizontal";
 
@@ -16,7 +18,8 @@ namespace _Project31.Scripts
         private Rotator _rotator;
         private Shooter _shooter;
         private float _fixedTime ;
-        public Vector3 Direction => _mover.Direction;
+
+        public bool IsDead => _health.Current.Value <= 0;
 
         public void Initialize(Mover mover, Rotator rotator, Shooter shooter, Health health)
         {
@@ -24,15 +27,6 @@ namespace _Project31.Scripts
             _rotator = rotator;
             _shooter = shooter;
             _health = health;
-        }
-
-        private void Awake()
-        {
-            Initialize(new Mover(transform, 10),
-                new Rotator(transform, 600),
-                new Shooter(_projectilePrefab),
-                new Health(500, 500));
-            
             _fixedTime = Time.fixedDeltaTime;
         }
 
@@ -48,24 +42,20 @@ namespace _Project31.Scripts
             _shooter?.Update(_fixedTime);
             
             if(Input.GetKeyDown(KeyCode.Space))
-                Shoot(_pointToShoot.transform.position,transform.forward);
+                Shoot(_pointToShoot.position, transform.forward);
         }
 
         public void Shoot(Vector3 startPosition, Vector3 direction)
-        {
-            _shooter?.Shoot(startPosition,direction);
-        }
+            =>_shooter?.Shoot(startPosition,direction);
 
 
         public void TakeDamage(float damage)
         {
-            if (_health.Current.Value <= 0)
-            {
-                Debug.Log("Hero is Dead");
-                return;
-            }
-
             _health.Reduce(damage);
+            
+            if (_health.Current.Value <= 0)
+                Dead?.Invoke();
+
         }
     }
 }

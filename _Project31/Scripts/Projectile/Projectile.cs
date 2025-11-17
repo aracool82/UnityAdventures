@@ -6,15 +6,11 @@ namespace _Project31.Scripts
     {
         private float _damage;
         private float _liveTime;
-        private float _speed;
-        
-        public float Damage => _damage;
 
-        public void Initialize(float damage, float liveTime, float speed)
+        public void Initialize(float damage, float liveTime)
         {
             _damage = damage;
             _liveTime = liveTime;
-            _speed = speed;
         }
         
         private void Update()
@@ -27,7 +23,7 @@ namespace _Project31.Scripts
 
         private void OnCollisionEnter(Collision other)
         {
-            if(other.collider.TryGetComponent(out IDamageble damageble))
+            if(other.collider.TryGetComponent(out IEnemyDamageble damageble))
                 damageble.TakeDamage(_damage);
             
             Destroy(gameObject);

@@ -4,4 +4,12 @@ namespace _Project31.Scripts
     {
         void TakeDamage(float damage);
     }
+
+    public interface IHeroDamageble : IDamageble
+    {
+    }
+    
+    public interface IEnemyDamageble : IDamageble
+    {
+    }
 }
