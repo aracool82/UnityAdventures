@@ -1,13 +1,19 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace _Project31.Scripts
 {
     public class EnemySpawner
     {
+        public event Action KilledEnemy;
+
         private EnemyConfig _config;
         private float _time;
         private List<Enemy> _enemies = new();
+        private int _killedEnemies = 0;
 
         public EnemySpawner(EnemyConfig config)
         {
@@ -29,7 +35,7 @@ namespace _Project31.Scripts
         {
             Enemy enemy = GameObject.Instantiate(
                 _config.EnemyPrefab,
-                _config.SpawnPints[Random.Range(0, _config.SpawnPints.Count)] + new Vector3(0,1,0),
+                _config.SpawnPints[Random.Range(0, _config.SpawnPints.Count)] + new Vector3(0, 1, 0),
                 Quaternion.identity);
 
             enemy.Initialize(
@@ -39,6 +45,19 @@ namespace _Project31.Scripts
                 _config.TimeToChangeDirection);
 
             _enemies.Add(enemy);
+            enemy.Dead += OnDeadEnemy;
+        }
+
+        private void OnDeadEnemy(Enemy enemy)
+        {
+            enemy.Dead -= OnDeadEnemy;
+            _killedEnemies++;
+            
+            Object.Destroy(enemy.gameObject);
+            _enemies.Remove(enemy);
+            
+            Debug.Log($"Kiled enemies : {_killedEnemies} / {_enemies.Count}");
+            KilledEnemy?.Invoke();
         }
     }
 }

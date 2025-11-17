@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d411b556c542388a7499914f7f180a, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  <EnemyPrefab>k__BackingField: {fileID: 0}
+  <EnemyPrefab>k__BackingField: {fileID: 6748670944008012939, guid: d2d8762f032d48249a5ee81749605d54,
+    type: 3}
+  <TimeToChangeDirection>k__BackingField: 2
   <MoveSpeed>k__BackingField: 4
   <Health>k__BackingField: 200
   <Damage>k__BackingField: 100
-  <SpawnPints>k__BackingField: []
+  <MaxEnemyCount>k__BackingField: 10
+  <SpawnPints>k__BackingField:
+  - {x: 6, y: 0, z: 1}
+  - {x: 4, y: 0, z: -4}
+  - {x: 4, y: 0, z: 5}

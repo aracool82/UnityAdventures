@@ -6,7 +6,7 @@ namespace _Project31.Scripts
 {
     public class Enemy : MonoBehaviour, IEnemyDamageble
     {
-        public event Action Dead;
+        public event Action<Enemy> Dead;
         
         private Health _health;
         private Mover _mover;
@@ -58,8 +58,7 @@ namespace _Project31.Scripts
 
             if (_health.Current.Value <= 0)
             {
-                Dead?.Invoke();
-                Destroy(gameObject);
+                Dead?.Invoke(this);
             }
         }
     }
