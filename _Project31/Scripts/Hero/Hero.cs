@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _Project31.Scripts
@@ -14,7 +15,7 @@ namespace _Project31.Scripts
         private Mover _mover;
         private Rotator _rotator;
         private Shooter _shooter;
-        
+        private float _fixedTime ;
         public Vector3 Direction => _mover.Direction;
 
         public void Initialize(Mover mover, Rotator rotator, Shooter shooter, Health health)
@@ -31,6 +32,8 @@ namespace _Project31.Scripts
                 new Rotator(transform, 600),
                 new Shooter(_projectilePrefab),
                 new Health(500, 500));
+            
+            _fixedTime = Time.fixedDeltaTime;
         }
 
         private void Update()
@@ -42,7 +45,7 @@ namespace _Project31.Scripts
             
             _mover?.Update(Time.deltaTime);
             _rotator?.Update(Time.deltaTime);
-            _shooter?.Update(Time.deltaTime);
+            _shooter?.Update(_fixedTime);
             
             if(Input.GetKeyDown(KeyCode.Space))
                 Shoot(_pointToShoot.transform.position,transform.forward);

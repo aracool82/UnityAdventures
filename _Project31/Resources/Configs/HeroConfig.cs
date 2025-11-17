@@ -9,6 +9,13 @@ namespace _Project31.Scripts
         [field: SerializeField] public float MoveSpeed {get; private set; }
         [field: SerializeField] public float RotationSpeed {get; private set; }
         [field: SerializeField] public float Health {get; private set; }
-        [field: SerializeField] public float Damage {get; private set; }
+        [field: SerializeField] public Vector3 StartHeroPosition {get; private set; }
+        
+        [field: SerializeField] public ProjectileConfig ProjectileConfig {get; private set; }
+
+
+        [ContextMenu("UpateHeroPosition")]
+        public void UpateHeroPosition() => StartHeroPosition = GameObject.FindGameObjectWithTag("HeroPoint").transform.position;
+
     }
 }

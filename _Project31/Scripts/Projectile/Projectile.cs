@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace _Project31.Scripts
@@ -24,11 +23,6 @@ namespace _Project31.Scripts
             
             if(_liveTime <= 0)
                 Destroy(gameObject);
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            
         }
 
         private void OnCollisionEnter(Collision other)

@@ -2,19 +2,19 @@ using UnityEngine;
 
 namespace _Project31.Scripts
 {
-    public class HeroSpawner 
+    public class HeroSpawner
     {
-        private Hero _heroPrefab;
-
-        public HeroSpawner(Hero heroPrefab)
+        public Hero Spawn(HeroConfig config)
         {
-            _heroPrefab = heroPrefab;
-        }
-
-        public void Spawn(Vector3 position)
-        {
-            Hero hero = Object.Instantiate(_heroPrefab, position, Quaternion.identity);
-            //hero.Initialize();
+            Hero instance = Object.Instantiate(config.HeroPrefab, config.StartHeroPosition, Quaternion.identity);
+            
+            instance.Initialize(
+                new Mover(instance.transform, config.MoveSpeed),
+                new Rotator(instance.transform,config.RotationSpeed),
+                new Shooter(config.ProjectileConfig.ProjectilePrefab),
+                new Health(config.Health,config.Health));
+            
+            return instance;
         }
     }
 }

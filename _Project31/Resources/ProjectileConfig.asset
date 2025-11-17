@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19d411b556c542388a7499914f7f180a, type: 3}
-  m_Name: EnemyConfig
+  m_Script: {fileID: 11500000, guid: cb819b9e5b13404c80549a1881b74e6f, type: 3}
+  m_Name: ProjectileConfig
   m_EditorClassIdentifier: 
-  <EnemyPrefab>k__BackingField: {fileID: 6748670944008012939, guid: d2d8762f032d48249a5ee81749605d54,
+  <ProjectilePrefab>k__BackingField: {fileID: 9123962019308498988, guid: 2dbf2302d28fe354baeec4091e8f219b,
     type: 3}
-  <MoveSpeed>k__BackingField: 4
-  <Health>k__BackingField: 200
   <Damage>k__BackingField: 50
+  <Speed>k__BackingField: 100

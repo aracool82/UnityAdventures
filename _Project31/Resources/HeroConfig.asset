@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <HeroPrefab>k__BackingField: {fileID: 7378951677966562109, guid: 583ecf9c9787cba43a22346fa97355e5,
     type: 3}
-  <MoveSpeed>k__BackingField: 8
-  <RotationSpeed>k__BackingField: 700
-  <Health>k__BackingField: 300
-  <Damage>k__BackingField: 50
+  <MoveSpeed>k__BackingField: 6
+  <RotationSpeed>k__BackingField: 800
+  <Health>k__BackingField: 500
+  <StartHeroPosition>k__BackingField: {x: -7, y: 0, z: 0}
+  <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: b52e7617749597347bb74c7bc930747b,
+    type: 2}

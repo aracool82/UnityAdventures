@@ -12,15 +12,15 @@ namespace _Project31.Scripts
         private float _timeToChangeDirection = 2;
         private float _time;
         private Vector3 _direction;
-        
+
         [field: SerializeField] public float Health { get; private set; }
 
         private void Awake()
         {
-            Initialize(new Health(500, 500),new Mover(transform,10), 20);
+            Initialize(new Health(100, 100), new Mover(transform, 2), 20);
         }
 
-        public void Initialize(Health health,Mover mover, float damage)
+        public void Initialize(Health health, Mover mover, float damage)
         {
             _health = health;
             _damage = damage;
@@ -37,16 +37,19 @@ namespace _Project31.Scripts
                 _time = 0;
                 _direction = GetDirection();
             }
-            
+
             _mover.SetDirection(_direction);
-            
+
             _mover.Update(Time.deltaTime);
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            if(other.collider.TryGetComponent(out IDamageble damageable))
+            if (other.collider.TryGetComponent(out IDamageble damageable))
                 damageable.TakeDamage(_damage);
+            
+            _direction = -_direction;
+            _time = 0;
         }
 
         private Vector3 GetDirection()
