@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b6ebadb93944f982b0d63ba0f3619a, type: 3}
   m_Name: RuleConfig
   m_EditorClassIdentifier: 
-  <TypeWin>k__BackingField: 1
-  <TypeDefeat>k__BackingField: 0
+  <TypeWin>k__BackingField: 0
+  <TypeDefeat>k__BackingField: 1

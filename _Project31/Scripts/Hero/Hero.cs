@@ -55,7 +55,6 @@ namespace _Project31.Scripts
             
             if (_health.Current.Value <= 0)
                 Dead?.Invoke();
-
         }
     }
 }

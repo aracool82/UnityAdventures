@@ -10,10 +10,13 @@ namespace _Project31.Scripts
     {
         public event Action KilledEnemy;
 
+        private ReactiveVariable<int> _enemiesCount = new();
         private EnemyConfig _config;
-        private float _time;
         private List<Enemy> _enemies = new();
+        private float _time;
         private int _killedEnemies = 0;
+
+        public IReadOnlyVariable<int> EnemiesCount => _enemiesCount;
 
         public EnemySpawner(EnemyConfig config)
         {
@@ -24,7 +27,7 @@ namespace _Project31.Scripts
         {
             _time += deltaTime;
 
-            if (_time >= _config.TimeToChangeDirection)
+            if (_time >= _config.TimeToSpawn)
             {
                 _time = 0;
                 Spawn();
@@ -46,16 +49,17 @@ namespace _Project31.Scripts
 
             _enemies.Add(enemy);
             enemy.Dead += OnDeadEnemy;
+            _enemiesCount.Value = _enemies.Count;
         }
 
         private void OnDeadEnemy(Enemy enemy)
         {
             enemy.Dead -= OnDeadEnemy;
             _killedEnemies++;
-            
+
             Object.Destroy(enemy.gameObject);
             _enemies.Remove(enemy);
-            
+
             Debug.Log($"Kiled enemies : {_killedEnemies} / {_enemies.Count}");
             KilledEnemy?.Invoke();
         }

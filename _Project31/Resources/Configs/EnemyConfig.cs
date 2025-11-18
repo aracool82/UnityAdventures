@@ -8,6 +8,8 @@ namespace _Project31.Scripts
     {
         [field: SerializeField] public  Enemy EnemyPrefab { get; private set; }
         [field: SerializeField] public float TimeToChangeDirection { get; private set; } = 2;
+        [field: SerializeField] public float TimeToSpawn { get; private set; } = 3;
+        
         [field: SerializeField] public float MoveSpeed { get; private set; } = 4;
         [field: SerializeField] public float Health { get; private set; } = 200;
         [field: SerializeField] public float Damage { get; private set; } = 100f;
