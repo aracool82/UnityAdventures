@@ -36,7 +36,6 @@ namespace _Project31.Scripts
             }
 
             _mover.SetDirection(_direction);
-
             _mover.Update(Time.deltaTime);
         }
 
@@ -57,9 +56,7 @@ namespace _Project31.Scripts
             _health.Reduce(damage);
 
             if (_health.Current.Value <= 0)
-            {
                 Dead?.Invoke(this);
-            }
         }
     }
 }
