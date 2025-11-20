@@ -1,30 +1,28 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace _Project31.Scripts
 {
     public class EnemySpawner
     {
-        public event Action KilledEnemy;
-
-        private ReactiveVariable<int> _enemiesCount = new();
         private EnemyConfig _config;
         private List<Enemy> _enemies = new();
         private float _time;
         private int _killedEnemies = 0;
-
-        public IReadOnlyVariable<int> EnemiesCount => _enemiesCount;
+        private bool _isRunning = false;
 
         public EnemySpawner(EnemyConfig config)
-        {
-            _config = config;
-        }
+            => _config = config;
+
+        public int EnemiesCount => _enemies.Count;
+        public int KilledEnemies => _killedEnemies;
 
         public void Update(float deltaTime)
         {
+            if (_isRunning == false)
+                return;
+
             _time += deltaTime;
 
             if (_time >= _config.TimeToSpawn)
@@ -32,6 +30,18 @@ namespace _Project31.Scripts
                 _time = 0;
                 Spawn();
             }
+        }
+
+        public void Start()
+        {
+            _isRunning = true;
+        }
+
+        public void Stop()
+        {
+            _time = 0;
+            _isRunning = false;
+            KillAllEnemies();
         }
 
         private void Spawn()
@@ -49,7 +59,6 @@ namespace _Project31.Scripts
 
             _enemies.Add(enemy);
             enemy.Dead += OnDeadEnemy;
-            _enemiesCount.Value = _enemies.Count;
         }
 
         private void OnDeadEnemy(Enemy enemy)
@@ -59,9 +68,14 @@ namespace _Project31.Scripts
 
             Object.Destroy(enemy.gameObject);
             _enemies.Remove(enemy);
+        }
 
-            Debug.Log($"Kiled enemies : {_killedEnemies} / {_enemies.Count}");
-            KilledEnemy?.Invoke();
+        private void KillAllEnemies()
+        {
+            foreach (Enemy enemy in _enemies)
+                GameObject.Destroy(enemy.gameObject);
+            
+            _enemies.Clear();
         }
     }
 }

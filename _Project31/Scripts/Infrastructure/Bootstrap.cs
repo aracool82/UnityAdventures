@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace _Project31.Scripts
@@ -27,26 +26,42 @@ namespace _Project31.Scripts
             Hero hero = _heroSpawner.Spawn(heroConfig,_projectileSpawner,projectileConfig);
             _enemySpawner = new EnemySpawner(enemyConfig);
 
-            ICondition conditionDefeat = null;
-            ICondition conditionWin = null;
+            Condition conditionDefeat = null;
+            Condition conditionWin = null;
             
             if (ruleConfig.TypeDefeat == TypeDefeat.HeroDead)
-                conditionDefeat = _conditionsFabric.CreateHeroDeadCondition(hero);
-            
+            {
+                conditionDefeat = _conditionsFabric.Create
+                (() =>
+                        hero.IsDead,
+                    "Hero id dead");
+            }
+            else if (ruleConfig.TypeDefeat == TypeDefeat.SpawedEnemys)
+            {
+                conditionDefeat = _conditionsFabric.Create(() =>
+                        _enemySpawner.EnemiesCount == enemyConfig.MaxEnemyCount,
+                    "The enemies have captured");
+            }
+                
             if(ruleConfig.TypeWin == TypeWin.TimeToWin )
             {
-                conditionWin = _conditionsFabric.CreateTimeIsOverCondition(_timer, hero);
+                conditionWin = _conditionsFabric.Create(() =>_timer.MaxTime.Value -_timer.CurrentTime.Value < 0.01 && hero.IsDead == false,
+                    "Time is over");
+                
                 _timer.Start();
             }
+            else if (ruleConfig.TypeWin == TypeWin.KilledEnemys)
+            {
+                conditionWin = _conditionsFabric.Create(() => _enemySpawner.KilledEnemies == 2, "KILLED ALL ENEMIES");
+            }
             
-            _gameMode = new GameMode();
+            _gameMode = new GameMode(_enemySpawner);
             _gameMode.SetConditions(conditionWin,conditionDefeat);
             
             _gameMode.Win += OnWin;
             _gameMode.Defeat += OnDefeat;
             
             _gameMode.Start();
-            
         }
         
         private void Update()

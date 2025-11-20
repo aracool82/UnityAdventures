@@ -7,10 +7,17 @@ namespace _Project31.Scripts
         public event Action<string> Win;
         public event Action<string> Defeat;
         
-        private ICondition _conditionWin;
-        private ICondition _conditionDefeat;
+        private Condition _conditionWin;
+        private Condition _conditionDefeat;
         private bool _isRunning;
         
+        private EnemySpawner _spawner;
+
+        public GameMode(EnemySpawner spawner)
+        {
+            _spawner = spawner;
+        }
+
         public void Update(float deltaTime)
         {
             if (_isRunning == false)
@@ -30,7 +37,7 @@ namespace _Project31.Scripts
             }
         }
 
-        public void SetConditions(ICondition conditionWin, ICondition conditionDefeat)
+        public void SetConditions(Condition conditionWin, Condition conditionDefeat)
         {
             _conditionWin = conditionWin;
             _conditionDefeat = conditionDefeat;
@@ -39,11 +46,13 @@ namespace _Project31.Scripts
         public void Start()
         {
            _isRunning = true;
+           _spawner.Start();
         }
 
         public void Stop()
         {
             _isRunning = false;
+            _spawner.Stop();
         }
     }
 }

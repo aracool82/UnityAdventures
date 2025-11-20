@@ -13,7 +13,6 @@ namespace _Project31.Scripts
 
         private bool _isRunningTime;
         private float _counter;
-        private float _second = 1f;
         private float _time;
 
         public Timer(float maxTime, float currentTime = 0)
