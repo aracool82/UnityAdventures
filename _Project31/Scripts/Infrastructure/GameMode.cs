@@ -20,7 +20,7 @@ namespace _Project31.Scripts
 
         public void Update(float deltaTime)
         {
-            if (_isRunning == false)
+            if (_isRunning == false || _conditionWin == null || _conditionDefeat == null)
                 return;
             
             if(_conditionWin.IsCompleted)
@@ -35,9 +35,11 @@ namespace _Project31.Scripts
                 Defeat?.Invoke(_conditionDefeat.Description);
                 Stop();
             }
+            
+            _spawner.Update(deltaTime);
         }
 
-        public void SetConditions(Condition conditionWin, Condition conditionDefeat)
+        public void SetConditionsFor(Condition conditionWin, Condition conditionDefeat)
         {
             _conditionWin = conditionWin;
             _conditionDefeat = conditionDefeat;
