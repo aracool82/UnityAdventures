@@ -31,6 +31,7 @@ namespace _Project31.Scripts
                 if(_counter == _maxTime)
                 {
                     _coroutine = null;
+                    _counter = 0;
                     Debug.Log($"Процесс : {IsProcess}");
                     yield break;
                 }

@@ -25,7 +25,7 @@ namespace _Project31.Scripts
             
             if(_conditionWin.IsCompleted)
             {
-                Win?.Invoke(_conditionWin.Description);
+                  Win?.Invoke(_conditionWin.Description);
                 Stop();
                 return;
             }
