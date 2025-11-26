@@ -7,6 +7,11 @@ namespace _Project_L1
     public class ConfirmPopup : MonoBehaviour
     {
         [SerializeField] private TMP_Text text;
+        private SequenceTypes _sequenceType;
+
+        private bool IsPressedAlpha1 => Input.GetKeyDown(KeyCode.Alpha1);
+        private bool IsPressedAlpha2 => Input.GetKeyDown(KeyCode.Alpha2);
+        
         public void Show()
             => gameObject.SetActive(true);
 
@@ -16,9 +21,24 @@ namespace _Project_L1
         public void SetMessage(string message)
             => text.text = message;
         
-        public IEnumerator WaitConfifm(KeyCode key)
+        public IEnumerator WaitConfirm(KeyCode key1, KeyCode key2)
         {
-            yield return new WaitWhile(() => Input.GetKeyDown(key) == false);
+            bool isPessed = false;
+            
+            while(isPessed == false)
+            {
+                if (Input.GetKeyDown(key1) || Input.GetKeyDown(key2))
+                {   
+                    if(Input.GetKeyDown(key1))
+                        _sequenceType = SequenceTypes.Numbers;
+                    else if (Input.GetKeyDown(key2))
+                        _sequenceType = SequenceTypes.Chars;
+                    
+                    isPessed = true;
+                }
+                
+                yield return null;
+            }
         }
     }
 }
