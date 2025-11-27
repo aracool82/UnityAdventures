@@ -3,6 +3,7 @@
     public enum SequenceTypes
     {
         Numbers,
-        Chars
+        Chars,
+        None
     }
 }

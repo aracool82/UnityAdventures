@@ -1,82 +1,53 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Project_L1
 {
-    public class GameMode : IDisposable
+    public class GameMode
     {
         public event Action Win;
         public event Action Defeat;
 
-        private InputService _input;
-        private LevelConfig _config;
-        private List<KeyCode> _keys = new();
+        private readonly ICoroutinePerformer _coroutinePerformer;
+        private Queue<KeyCode> _sequenceKeyCode = new();
 
-        private SequenceTypes _sequence;
-        private bool _isRunning;
-        
-        public GameMode(LevelConfig config, List<KeyCode> keys, SequenceTypes sequence = SequenceTypes.Numbers)
+        public GameMode(List<KeyCode> keys, ICoroutinePerformer coroutinePerformer)
         {
-            _config = config;
-            _keys = keys;
-            _input = new InputService();
-            _input.PressedKey += OnPressedKey;
-            SetSequence(sequence);
+            if (keys.Count == 0 || keys == null)
+                throw new ArgumentException("No keys provided");
+
+            _coroutinePerformer = coroutinePerformer;
+            _sequenceKeyCode.EnqueueMany(keys);
         }
 
-        public void Update()
-        {   
-            if(_isRunning == false)
-                return;
-            
-            _input.Update();
-        }
-        
         public void Start()
-            => _isRunning = true;
-        
-        private void OnPressedKey(KeyCode pressedKey)
+            => _coroutinePerformer.Perform(ProcessSequence());
+
+        private IEnumerator ProcessSequence()
         {
-            if (_keys.Count == 0)
-                return;
-
-            KeyCode key = _keys[0];
-
-            if (pressedKey == key)
+            yield return new WaitForSeconds(0.1f);
+            
+            while (_sequenceKeyCode.Count > 0)
             {
-                _keys.Remove(key);
+                KeyCode waitKey = _sequenceKeyCode.Dequeue();
+                Debug.Log("Wait Key: " + waitKey);
 
-                if (_keys.Count == 0)
+                yield return new WaitUntil(() => Input.anyKeyDown);
+
+                if (Input.GetKeyDown(waitKey) == false)
                 {
-                    Win?.Invoke();
-                    Stop();
+                    _sequenceKeyCode.Clear();
+                    Defeat?.Invoke();
+                    yield break;
                 }
+
+                yield return null;
             }
-            else
-            {
-                Defeat?.Invoke();
-                Stop();
-            }
-        }
 
-        public void SetSequence(SequenceTypes sequence)
-        {
-            _sequence = sequence;
-
-            if (_sequence == SequenceTypes.Numbers)
-                _input.SetKeys(_config.Numbers);
-            else if (_sequence == SequenceTypes.Chars)
-                _input.SetKeys(_config.Chars);
-        }
-
-        public void Dispose()
-            => _input.PressedKey -= OnPressedKey;
-        
-        private void Stop()
-        {
-            Dispose();
-            _isRunning = false;
+            //Debug.Log("Win");
+            Win?.Invoke();
         }
     }
 }
