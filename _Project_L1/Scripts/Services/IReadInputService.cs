@@ -2,12 +2,11 @@
 using System.Collections;
 using UnityEngine;
 
-namespace _Project_L1
+namespace _Project_L1.Scripts.Services
 {
-    public interface IReadInput
+    public interface IReadInputService
     {
         event Action<KeyCode> PresedKey;
-        public bool IsPressed { get; }
         IEnumerator WaitPressFor(KeyCode keyCode);
     }
 }

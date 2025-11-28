@@ -1,4 +1,4 @@
-﻿namespace _Project_L1
+﻿namespace _Project_L1.Scripts
 {
     public enum ResultGameType
     {

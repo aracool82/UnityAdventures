@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Project_L1.Scripts.Infrastructure
+namespace _Project_L1.Scripts.Services
 {
     public interface IModeService
     {

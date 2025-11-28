@@ -2,18 +2,18 @@
 using System.Collections;
 using UnityEngine;
 
-namespace _Project_L1
+namespace _Project_L1.Scripts.Services
 {
-    public class ReadInput : IReadInput
+    public class ReadInput : IReadInputService
     {
         public event Action<KeyCode> PresedKey;
-        public bool IsPressed { get; private set; } = false;
 
         public IEnumerator WaitPressFor(KeyCode keyCode)
         {
             Debug.Log($"Wait for {keyCode} key");
+            
             yield return new WaitWhile(() => Input.GetKeyDown(keyCode) == false);
-            IsPressed = true;
+           
             Debug.Log($"Key {keyCode} pressed.");
             PresedKey?.Invoke(keyCode);
         }

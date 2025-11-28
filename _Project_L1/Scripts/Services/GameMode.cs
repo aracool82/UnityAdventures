@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using _Project_L1.Scripts.Infrastructure;
 using UnityEngine;
 
-namespace _Project_L1
+namespace _Project_L1.Scripts.Services
 {
     public class GameMode : IModeService
     {

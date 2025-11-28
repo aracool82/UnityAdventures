@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections;
+using _Project_L1.Scripts.Services;
 using UnityEngine;
 
-namespace _Project_L1
+namespace _Project_L1.Scripts
 {
     public class GameMenu : MonoBehaviour
     {
-        private IReadInput _readInput;
+        private IReadInputService _readInputService;
         private bool _isSelectedMode;
         private ICoroutinePerformer _coroutinePerformer;
         public SequenceTypes SequenceType { get; private set; } = SequenceTypes.None;
 
-        public void Initialize(IReadInput readInput, ICoroutinePerformer coroutinePerformer)
+        public void Initialize(IReadInputService readInputService, ICoroutinePerformer coroutinePerformer)
         {
-            _readInput = readInput;
+            _readInputService = readInputService;
             _coroutinePerformer = coroutinePerformer;
 
-            _readInput.PresedKey += OnPresedKey;
+            _readInputService.PresedKey += OnPresedKey;
             _isSelectedMode = false;
         }
 
@@ -26,8 +27,8 @@ namespace _Project_L1
             WaitUntil waitForChoice = new WaitUntil(() => _isSelectedMode);
 
             Debug.Log("Waiting for USER choice : ");
-            _coroutinePerformer.Perform(_readInput.WaitPressFor(KeyCode.Alpha1));
-            _coroutinePerformer.Perform(_readInput.WaitPressFor(KeyCode.Alpha2));
+            _coroutinePerformer.Perform(_readInputService.WaitPressFor(KeyCode.Alpha1));
+            _coroutinePerformer.Perform(_readInputService.WaitPressFor(KeyCode.Alpha2));
 
             yield return waitForChoice;
             Hide();
@@ -57,6 +58,6 @@ namespace _Project_L1
             => gameObject.SetActive(false);
 
         private void OnDestroy()
-            => _readInput.PresedKey -= OnPresedKey;
+            => _readInputService.PresedKey -= OnPresedKey;
     }
 }
