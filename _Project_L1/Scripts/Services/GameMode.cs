@@ -22,7 +22,7 @@ namespace _Project_L1.Scripts.Services
         public void Start()
             => _coroutinePerformer.Perform(ProcessSequence());
 
-        private IEnumerator ProcessSequence()
+        private IEnumerator ProcessSequence() //TODO with ReadInput
         {
             yield return new WaitForSeconds(0.1f);
             
