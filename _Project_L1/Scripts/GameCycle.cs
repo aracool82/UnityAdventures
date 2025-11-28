@@ -30,11 +30,7 @@ namespace _Project_L1
 
         private IEnumerator Prepare()
         {
-            _gameMenu.Show();
-            yield return _gameMenu.WaitSelectedMod();
-            Debug.Log($"Selected Mod : {_gameMenu.SequenceType}");
-            _gameMenu.Hide();
-
+            yield return _gameMenu.ShowWithWait();
             CreateAndStartGameMode();
         }
         
