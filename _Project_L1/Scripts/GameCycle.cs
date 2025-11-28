@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project_L1.Scripts.Infrastructure;
 using UnityEngine;
 
 namespace _Project_L1
@@ -8,15 +9,19 @@ namespace _Project_L1
     public class GameCycle : IDisposable
     {
         private readonly ICoroutinePerformer _coroutinePerformer;
+        private readonly ModeFactory _modeFactory;
+
+        private IModeService _modeService;
         private GameMenu _gameMenu;
-        private GameMode _gameMode;
         private LevelConfig _levelConfig;
         private ResultGameType _resultGameType;
 
-        public GameCycle(GameMenu gameMenu, LevelConfig levelConfig, ICoroutinePerformer coroutinePerformer)
+        public GameCycle(GameMenu gameMenu, LevelConfig levelConfig, ModeFactory modeFactory,
+            ICoroutinePerformer coroutinePerformer)
         {
             _levelConfig = levelConfig;
             _gameMenu = gameMenu;
+            _modeFactory = modeFactory;
             _coroutinePerformer = coroutinePerformer;
         }
 
@@ -30,42 +35,47 @@ namespace _Project_L1
             Debug.Log($"Selected Mod : {_gameMenu.SequenceType}");
             _gameMenu.Hide();
 
-            CreateGameMode();
-
-            Subscribe();
-            _gameMode.Start();
-        }
-
-        private void CreateGameMode()
-        {
-            if (_gameMenu.SequenceType == SequenceTypes.Numbers)
-                _gameMode = new GameMode(_levelConfig.GetSequence(SequenceTypes.Numbers), _coroutinePerformer);
-            else if (_gameMenu.SequenceType == SequenceTypes.Chars)
-                _gameMode = new GameMode(_levelConfig.GetSequence(SequenceTypes.Chars), _coroutinePerformer);
-            else
-                Debug.LogError("Incorrect sequence type");
+            CreateAndStartGameMode();
         }
         
+        private void CreateAndStartGameMode()
+        {
+            CreateGameMode(_gameMenu.SequenceType);
+            Subscribe();
+            _modeService.Start();
+        }
+        
+        private void CreateGameMode(SequenceTypes type)
+        {
+            switch (type)
+            {
+                case SequenceTypes.Numbers:
+                    _modeService = _modeFactory.CreateMode(_levelConfig, type, _coroutinePerformer);
+                    break;
+                
+                case SequenceTypes.Chars:
+                    _modeService = _modeFactory.CreateMode(_levelConfig, type, _coroutinePerformer);
+                    break;
+                
+                default:
+                    throw new AggregateException($"Unknown sequence type: {type}");
+            }
+        }
+
         private IEnumerator WaitPressSpace()
         {
             Unsubscribe();
             string message = _resultGameType == ResultGameType.Win ? "selected Menu" : "retry game";
             Debug.Log($"Press Space for {message}");
-            
+
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
 
             if (_resultGameType == ResultGameType.Win)
-            {
                 _coroutinePerformer.Perform(Prepare());
-            }
             else if (_resultGameType == ResultGameType.Defeat)
-            {
-                CreateGameMode();
-                Subscribe();
-                _gameMode.Start();
-            }
+                CreateAndStartGameMode();
         }
-        
+
         private void OnDefeat()
         {
             Debug.Log("Defeat");
@@ -84,14 +94,14 @@ namespace _Project_L1
 
         private void Subscribe()
         {
-            _gameMode.Win += OnWin;
-            _gameMode.Defeat += OnDefeat;
+            _modeService.Win += OnWin;
+            _modeService.Defeat += OnDefeat;
         }
 
         private void Unsubscribe()
         {
-            _gameMode.Win -= OnWin;
-            _gameMode.Defeat -= OnDefeat;
+            _modeService.Win -= OnWin;
+            _modeService.Defeat -= OnDefeat;
         }
 
         public void Dispose()

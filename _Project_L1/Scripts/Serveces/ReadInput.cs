@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Project_L1
 {
-    public class ReadInput
+    public class ReadInput : IReadInput
     {
         public event Action<KeyCode> PresedKey;
 

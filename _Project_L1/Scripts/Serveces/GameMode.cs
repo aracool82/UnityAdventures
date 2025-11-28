@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Project_L1.Scripts.Infrastructure;
 using UnityEngine;
 
 namespace _Project_L1
 {
-    public class GameMode
+    public class GameMode : IModeService
     {
         public event Action Win;
         public event Action Defeat;
@@ -13,10 +14,10 @@ namespace _Project_L1
         private readonly ICoroutinePerformer _coroutinePerformer;
         private Queue<KeyCode> _sequenceKeyCode = new();
 
-        public GameMode(IEnumerable keys, ICoroutinePerformer coroutinePerformer)
+        public GameMode(IEnumerable<KeyCode> keys, ICoroutinePerformer coroutinePerformer)
         {
             _coroutinePerformer = coroutinePerformer;
-            _sequenceKeyCode.EnqueueMany((List<KeyCode>)keys);
+            _sequenceKeyCode.EnqueueMany(keys);
         }
 
         public void Start()
