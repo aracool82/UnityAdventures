@@ -13,13 +13,10 @@ namespace _Project_L1
         private readonly ICoroutinePerformer _coroutinePerformer;
         private Queue<KeyCode> _sequenceKeyCode = new();
 
-        public GameMode(List<KeyCode> keys, ICoroutinePerformer coroutinePerformer)
+        public GameMode(IEnumerable keys, ICoroutinePerformer coroutinePerformer)
         {
-            if (keys.Count == 0 || keys == null)
-                throw new ArgumentException("No keys provided");
-
             _coroutinePerformer = coroutinePerformer;
-            _sequenceKeyCode.EnqueueMany(keys);
+            _sequenceKeyCode.EnqueueMany((List<KeyCode>)keys);
         }
 
         public void Start()

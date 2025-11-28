@@ -39,9 +39,9 @@ namespace _Project_L1
         private void CreateGameMode()
         {
             if (_gameMenu.SequenceType == SequenceTypes.Numbers)
-                _gameMode = new GameMode(_levelConfig.Numbers, _coroutinePerformer);
+                _gameMode = new GameMode(_levelConfig.GetSequence(SequenceTypes.Numbers), _coroutinePerformer);
             else if (_gameMenu.SequenceType == SequenceTypes.Chars)
-                _gameMode = new GameMode(_levelConfig.Chars, _coroutinePerformer);
+                _gameMode = new GameMode(_levelConfig.GetSequence(SequenceTypes.Chars), _coroutinePerformer);
             else
                 Debug.LogError("Incorrect sequence type");
         }
