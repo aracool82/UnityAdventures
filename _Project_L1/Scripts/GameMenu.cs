@@ -9,12 +9,7 @@ namespace _Project_L1
         public SequenceTypes SequenceType { get; private set; } = SequenceTypes.None;
 
         public void Show()
-        {
-            gameObject.SetActive(true);
-
-            // if (_coroutine == null)
-            //     _coroutine = StartCoroutine(GetMode());
-        }
+            => gameObject.SetActive(true);
         
         public void Hide()
             => gameObject.SetActive(false);

@@ -46,7 +46,6 @@ namespace _Project_L1
                 yield return null;
             }
 
-            //Debug.Log("Win");
             Win?.Invoke();
         }
     }
