@@ -1,3 +1,4 @@
+using System.Collections;
 using _Project_L1.Scripts.Services;
 using _Project_L1.Scripts.Utils.AssetManagement;
 using _Project_L1.Scripts.Utils.CoroutineManagement;
@@ -9,7 +10,7 @@ namespace _Project_L1.Scripts.Infrastructure
     {
         [SerializeField] private Canvas _mainCanvas;
 
-        private ResourcesLoader _resourcesLoader;
+        private ResourcesAssetLoader _resourcesAssetLoader;
         private ICoroutinePerformer _coroutinePerformer;
 
         private GameMenu _gameMenu;
@@ -18,9 +19,13 @@ namespace _Project_L1.Scripts.Infrastructure
         private ModeFactory _modeFactory;
 
         private void Awake()
+            => StartCoroutine(ProcessStart());
+
+        private IEnumerator ProcessStart()
         {
-            _resourcesLoader =
-                CreateResourcesLoader(); //инициализирован должен быть первым, иначе не будут загружатся Префабы
+            _resourcesAssetLoader =
+                CreateResourcesLoader(); //инициализирован должен быть первым,
+            //иначе не будут загружатся Префабы
 
             _coroutinePerformer = CreateCoroutinePerformer();
 
@@ -32,6 +37,7 @@ namespace _Project_L1.Scripts.Infrastructure
 
             _gameCycle = CreateGameCycle();
             _gameCycle.Start();
+            yield return null;
         }
 
         private GameCycle CreateGameCycle()
@@ -41,23 +47,23 @@ namespace _Project_L1.Scripts.Infrastructure
             => new ModeFactory();
 
         private LevelConfig CreateLevelConfig()
-            => _resourcesLoader.Load<LevelConfig>("Configs/LevelConfig");
+            => _resourcesAssetLoader.Load<LevelConfig>("Configs/LevelConfig");
 
         private GameMenu CreateGameMenu()
         {
-            GameMenu gameMenu = _resourcesLoader.Load<GameMenu>("Prefabs/Menu");
+            GameMenu gameMenu = _resourcesAssetLoader.Load<GameMenu>("Prefabs/Menu");
             _gameMenu.Initialize(new ReadInput(), _coroutinePerformer);
             return Instantiate(gameMenu, _mainCanvas.transform);
         }
 
 
-        private ResourcesLoader CreateResourcesLoader()
-            => new ResourcesLoader();
+        private ResourcesAssetLoader CreateResourcesLoader()
+            => new ResourcesAssetLoader();
 
         private CoroutinePerformer CreateCoroutinePerformer()
         {
             CoroutinePerformer coroutinePerformerPrefab =
-                _resourcesLoader.Load<CoroutinePerformer>("Prefabs/CoroutinePerformer");
+                _resourcesAssetLoader.Load<CoroutinePerformer>("Prefabs/CoroutinePerformer");
             return Instantiate(coroutinePerformerPrefab);
         }
     }
