@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace _Project_L1
+namespace _Project_L1.Scripts.Utils
 {
     public static class QueueExtensions
     {
