@@ -12,20 +12,21 @@ namespace _Project_L1.Scripts.Utils.ConfigsManagement
 
         private readonly Dictionary<Type, string> _configsResourcesPaths = new()
         {
+            
         };
 
-        public IEnumerator LoadAsync(Action<Dictionary<Type, string>> onConfigsLoaded)
+        public IEnumerator LoadAsync(Action<Dictionary<Type, object>> onConfigsLoaded)
         {
             Dictionary<Type, object> loadedConfigs = new();
 
-            foreach (var configResourcePath in _configsResourcesPaths)
+            foreach (var configResourcePath in _configsResourcesPaths)//проходим словарю
             {
                 ScriptableObject config = _resourcesAsset.Load<ScriptableObject>(configResourcePath.Value);
                 loadedConfigs.Add(configResourcePath.Key, config);
-                yield return null;
+                yield return null; // Это можно убрать, если не нужно ждать
             }
 
-            //onConfigsLoaded?.Invoke(loadedConfigs); // TODO
+            onConfigsLoaded?.Invoke(loadedConfigs);
         }
     }
 }

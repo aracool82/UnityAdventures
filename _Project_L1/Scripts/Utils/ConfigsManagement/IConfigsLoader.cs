@@ -6,6 +6,6 @@ namespace _Project_L1.Scripts.Utils
 {
     public interface IConfigsLoader
     {
-        IEnumerator LoadAsync(Action<Dictionary<Type, string>> onConfigsLoaded);
+        IEnumerator LoadAsync(Action<Dictionary<Type, object>> onConfigsLoaded);
     }
 }

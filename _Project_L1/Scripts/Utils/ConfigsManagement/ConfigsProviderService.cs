@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 namespace _Project_L1.Scripts.Utils.ConfigsManagement
 {
@@ -20,11 +19,8 @@ namespace _Project_L1.Scripts.Utils.ConfigsManagement
             _configs.Clear();
 
             foreach (IConfigsLoader loader in _loaders)
-                yield return loader.LoadAsync((loadedConfigs) =>
-                {
-                    foreach (var keyValuePair in loadedConfigs)
-                        _configs[keyValuePair.Key] = keyValuePair.Value;
-                });
+                yield return loader.LoadAsync((loadedConfigs) => _configs.AddRange(loadedConfigs));
+
         }
 
         public T GetConfig<T>() where T : class
